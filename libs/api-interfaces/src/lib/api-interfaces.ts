@@ -2,30 +2,25 @@ export interface BaseEntity {
   id: number | null;
 }
 
-export interface Transaction extends BaseEntity {
-  price: number;
-  currency: string;
-  creditCardType: string;
-  creditCardNumber: number;
+export interface Message extends BaseEntity {
+  body: string;
+  roomId: number;
+  userId: number;
+}
+export interface MessageWithUser extends Message {
+  user: User;
 }
 
-export interface Customer extends BaseEntity {
-  externalId: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  gender?: string;
-  country?: string;
-  city?: string;
-  street?: string;
-  phone?: string;
-}
-export interface CustomerWithTransactions extends Customer {
-  transactions?: Transaction[];
+export interface User extends BaseEntity {
+  username?: string;
 }
 
-export interface TransactionWithCustomer extends Transaction {
-  customer: Customer;
+export interface Room extends BaseEntity {
+  name?: string;
+}
+
+export interface RoomWithMessages extends Room {
+  messages: Message[];
 }
 
 export const FEED_API_URL = '/api/feed';

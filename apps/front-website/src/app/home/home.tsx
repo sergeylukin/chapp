@@ -17,7 +17,7 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
-import { TransactionWithCustomer } from '@justt/api-interfaces';
+import { MessageWithUser } from '@justt/api-interfaces';
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -80,7 +80,7 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { isOpen, onToggle } = useDisclosure();
-  const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
+  const [feed, setFeed] = useState<MessageWithUser[]>([]);
   const [searchString, setSearchString] = useState('');
   const [fetchSearchString, setFetchSearchString] = useState('');
   const feedData = useFeed(fetchSearchString);

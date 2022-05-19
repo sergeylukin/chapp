@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { TransactionWithCustomer, FEED_API_URL } from '@justt/api-interfaces';
+import { MessageWithUser, FEED_API_URL } from '@justt/api-interfaces';
 
 const findBy = async (searchString: string) =>
   await axios.get(
@@ -9,7 +9,7 @@ const findBy = async (searchString: string) =>
   );
 
 export function useFeed(searchString: string) {
-  const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
+  const [feed, setFeed] = useState<MessageWithUser[]>([]);
   useEffect(() => {
     findBy(searchString).then((value) => {
       setFeed(value.data);

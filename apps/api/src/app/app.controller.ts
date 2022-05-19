@@ -1,5 +1,6 @@
 import {
   Controller,
+  Put,
   Get,
   Param,
   Post,
@@ -7,11 +8,11 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { TransactionWithCustomer } from '@justt/api-interfaces';
+import { MessageWithUser } from '@justt/api-interfaces';
 import {
-  Gender,
-  Customer as CustomerModel,
-  Transaction as TransactionModel,
+  User as UserModel,
+  Room as RoomModel,
+  Message as MessageModel,
   Prisma,
 } from '@prisma/client';
 
@@ -21,76 +22,38 @@ import { PrismaService } from './prisma.service';
 export class AppController {
   constructor(private readonly dataService: PrismaService) {}
 
-  @Get('transaction/:id')
-  async getTransactionById(@Param('id') id: string): Promise<TransactionModel> {
-    return this.dataService.transaction.findUnique({
+  @Get('message/:id')
+  async getMessageById(@Param('id') id: string): Promise<MessageModel> {
+    return this.dataService.message.findUnique({
       where: { id: Number(id) },
     });
   }
 
-  @Delete('transaction/:id')
-  async deleteTransaction(@Param('id') id: string): Promise<TransactionModel> {
-    return this.dataService.transaction.delete({ where: { id: Number(id) } });
+  @Delete('message/:id')
+  async deleteMessage(@Param('id') id: string): Promise<MessageModel> {
+    return this.dataService.message.delete({ where: { id: Number(id) } });
   }
 
   @Get('feed')
-  async getFilteredTransactions(
+  async getFilteredMessages(
     @Query('take') take?: number,
     @Query('skip') skip?: number,
     @Query('searchString') searchString?: string,
     @Query('orderBy') orderBy?: 'asc' | 'desc'
-  ): Promise<TransactionWithCustomer[]> {
+  ): Promise<MessageWithUser[]> {
     // @ts-ignore
     const or = searchString
       ? {
           OR: [
             {
-              creditCardType: {
+              body: {
                 contains: searchString,
                 mode: 'insensitive',
               },
             },
             {
-              currency: {
-                contains: searchString,
-                mode: 'insensitive',
-              },
-            },
-            {
-              customer: {
-                firstName: {
-                  contains: searchString,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            {
-              customer: {
-                lastName: {
-                  contains: searchString,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            {
-              customer: {
-                country: {
-                  contains: searchString,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            {
-              customer: {
-                city: {
-                  contains: searchString,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            {
-              customer: {
-                street: {
+              user: {
+                name: {
                   contains: searchString,
                   mode: 'insensitive',
                 },
@@ -101,8 +64,8 @@ export class AppController {
       : {};
 
     // @ts-ignore
-    return this.dataService.transaction.findMany({
-      include: { customer: true },
+    return this.dataService.message.findMany({
+      include: { user: true },
       // @ts-ignore
       where: or,
       take: Number(take) || undefined,
@@ -113,99 +76,145 @@ export class AppController {
     });
   }
 
-  @Get('customers')
-  async getAllCustomers(): Promise<CustomerModel[]> {
-    return this.dataService.customer.findMany();
+  @Get('users')
+  async getAllUsers(): Promise<UserModel[]> {
+    return this.dataService.user.findMany();
   }
 
-  @Get('customer/:id')
-  async getCustomerById(@Param('id') id: string): Promise<CustomerModel> {
-    return this.dataService.customer.findFirst({
-      where: { OR: [{ id: parseInt(id, 10) }, { externalId: id }] },
+  @Get('user/:id')
+  async getUserById(@Param('id') id: string): Promise<UserModel> {
+    return this.dataService.user.findFirst({
+      where: { id: parseInt(id, 10) },
     });
   }
 
-  @Get('transactions')
-  async getAllTransactions(): Promise<TransactionModel[]> {
-    return this.dataService.transaction.findMany();
+  @Get('rooms')
+  async getAllRooms(): Promise<RoomModel[]> {
+    return this.dataService.room.findMany();
   }
 
-  @Get('customer/:id/transactions')
-  async getTransactionsByCustomer(
-    @Param('id') id: string
-  ): Promise<TransactionModel[]> {
-    return this.dataService.customer
+  @Get('room/:id/messages')
+  async getMessagesByRoom(@Param('id') id: string): Promise<MessageModel[]> {
+    return this.dataService.room
       .findUnique({
         where: { id: Number(id) },
       })
-      .transactions();
+      .messages();
   }
 
-  @Post('transaction')
+  @Get('user/:id/messages')
+  async getMessagesByUser(@Param('id') id: string): Promise<MessageModel[]> {
+    return this.dataService.user
+      .findUnique({
+        where: { id: Number(id) },
+      })
+      .messages();
+  }
+
+  @Post('room/:id/message')
   async createDraft(
+    @Param('id') roomId: number,
     @Body()
-    transactionData: {
-      price: number;
-      currency?: string;
-      creditCardType: string;
-      creditCardNumber: number;
-      customerId: number;
+    messageData: {
+      body: string;
+      userId: number;
     }
-  ): Promise<TransactionModel> {
-    const { price, currency, creditCardType, creditCardNumber, customerId } =
-      transactionData;
-    return this.dataService.transaction.create({
+  ): Promise<MessageModel> {
+    const { body, userId } = messageData;
+    return this.dataService.message.create({
       data: {
-        price,
-        currency,
-        creditCardType,
-        creditCardNumber,
-        customer: {
-          connect: { id: customerId },
+        body,
+        room: {
+          connect: { id: Number(roomId) },
+        },
+        user: {
+          connect: { id: Number(userId) },
         },
       },
+    });
+  }
+
+  @Post('room/:id/join')
+  async joinRoom(
+    @Param('id') roomId: number,
+    @Body()
+    messageData: {
+      userId: string;
+    }
+  ): Promise<UserModel> {
+    const { userId } = messageData;
+    return await this.dataService.user.update({
+      where: {
+        id: Number(userId),
+      },
+      data: {
+        rooms: {
+          connect: {
+            id: Number(roomId),
+          },
+        },
+      },
+    });
+  }
+
+  @Post('room/:id/leave')
+  async leaveRoom(
+    @Param('id') roomId: number,
+    @Body()
+    messageData: {
+      userId: string;
+    }
+  ): Promise<UserModel> {
+    const { userId } = messageData;
+    return await this.dataService.user.update({
+      where: {
+        id: Number(userId),
+      },
+      data: {
+        rooms: {
+          disconnect: {
+            id: Number(roomId),
+          },
+        },
+      },
+    });
+  }
+
+  @Put('message/:id')
+  async updateMessage(
+    @Param('id') id: number,
+    @Body()
+    messageData: {
+      body: string;
+    }
+  ): Promise<MessageModel> {
+    return this.dataService.message.update({
+      where: {
+        id: Number(id),
+      },
+      data: messageData,
     });
   }
 
   @Post('signup')
-  async signupCustomer(
+  async signupUser(
     @Body()
-    customerData: {
-      externalId: string;
-      email: string;
-      firstName?: string;
-      lastName?: string;
-      gender?: Gender;
-      country?: string;
-      city?: string;
-      street?: string;
-      phone?: string;
-      transactions?: Prisma.TransactionCreateInput[];
+    userData: {
+      name?: string;
     }
-  ): Promise<CustomerModel> {
-    const transactionData = customerData.transactions?.map((transaction) => {
-      return {
-        price: transaction?.price,
-        currency: transaction?.currency,
-        creditCardType: transaction?.creditCardType,
-        creditCardNumber: transaction?.creditCardNumber,
-      };
-    });
-    return this.dataService.customer.create({
-      data: {
-        externalId: customerData.externalId,
-        email: customerData.email,
-        firstName: customerData.firstName,
-        lastName: customerData.lastName,
-        gender: customerData.gender,
-        country: customerData.country,
-        city: customerData.city,
-        street: customerData.street,
-        phone: customerData.phone,
-        transactions: {
-          create: transactionData,
-        },
+  ): Promise<UserModel> {
+    const user = await this.dataService.user.findFirst({
+      where: {
+        name: userData.name,
       },
     });
+    if (!user) {
+      return await this.dataService.user.create({
+        data: {
+          name: userData.name,
+        },
+      });
+    }
+    return user;
   }
 }

@@ -5,7 +5,7 @@ x-healthcheck-defaults: &default-healthchecks
   timeout: 10s
   retries: 3
 
-x-justt-volumes: &justt-volumes
+x-chapp-volumes: &chapp-volumes
   - ./:/usr/app
   - /usr/app/node_modules
 
@@ -28,7 +28,7 @@ services:
       - postgres
     restart: unless-stopped
     volumes:
-      *justt-volumes
+      *chapp-volumes
     ports:
       - "${API_PORT}:${API_PORT}"
     healthcheck:
@@ -42,7 +42,7 @@ services:
       target: builder
       dockerfile: ./apps/front-website/Dockerfile
     volumes:
-      *justt-volumes
+      *chapp-volumes
     ports:
       - ${APP_PORT}:${APP_PORT}
     command: ["npm", "run", "serve:web"]
@@ -52,7 +52,7 @@ services:
 
   webserver:
     image: nginx:1.19.2
-    container_name: justt-webserver
+    container_name: chapp-webserver
     restart: unless-stopped
     tty: true
     depends_on:

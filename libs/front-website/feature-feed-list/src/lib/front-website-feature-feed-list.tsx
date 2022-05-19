@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { TransactionWithCustomer } from '@justt/api-interfaces';
+import { MessageWithUser } from '@justt/api-interfaces';
 
 const StyledFrontWebsiteFeatureFeedList = styled.div`
   color: black;
@@ -14,7 +14,7 @@ const NameStyled = styled.span`
 
 /* eslint-disable-next-line */
 export interface FrontWebsiteFeatureFeedListProps {
-  feed: TransactionWithCustomer[];
+  feed: MessageWithUser[];
 }
 
 export function FrontWebsiteFeatureFeedList(
@@ -25,16 +25,13 @@ export function FrontWebsiteFeatureFeedList(
     <StyledFrontWebsiteFeatureFeedList>
       <table>
         {Array.isArray(feed) &&
-          feed.map((transaction) => (
-            <tr key={transaction.id}>
+          feed.map((message) => (
+            <tr key={message.id}>
               <td align="left">
-                <NameStyled>{`${transaction.customer.firstName} ${transaction.customer.lastName}`}</NameStyled>
-              </td>
-              <td align="right">
-                <strong>{transaction.price}</strong>
+                <NameStyled>{`${message.user.username}`}</NameStyled>
               </td>
               <td>
-                <small>{transaction.currency}</small>
+                <small>{message.body}</small>
               </td>
             </tr>
           ))}
