@@ -161,3 +161,10 @@ versioning locked. You can use this script to lock your versions in
 ```
 $ bash <(curl -s https://raw.githubusercontent.com/sergeylukin/npmlock.sh/main/npmlock.sh)
 ```
+
+### Migrations and docker compose
+
+Because docker compose stack runs in it's own network and `.env` is configured
+with this setup in mind, running migration from host machine will not work.
+As a workaround, before running migration (i.e. `npm run prisma:migrate my_migration_name`) modify `.env` file by modifying `DB_HOST` to `localhost`
+and then rolling it back after the migration process is finished.
