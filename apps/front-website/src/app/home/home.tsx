@@ -1,4 +1,4 @@
-import { useFeed } from '@justt/front-website/data-access-feed';
+// import { useFeed } from '@justt/front-website/data-access-feed';
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -16,8 +16,9 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
+// import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
 import { MessageWithUser } from '@justt/api-interfaces';
+import { useStoreState } from '../store/hooks';
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -79,18 +80,20 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 };
 
 export function Home() {
+  const { name, course } = useStoreState((store) => store);
+
   const { isOpen, onToggle } = useDisclosure();
-  const [feed, setFeed] = useState<MessageWithUser[]>([]);
+  // const [feed, setFeed] = useState<MessageWithUser[]>([]);
   const [searchString, setSearchString] = useState('');
   const [fetchSearchString, setFetchSearchString] = useState('');
-  const feedData = useFeed(fetchSearchString);
+  // const feedData = useFeed(fetchSearchString);
   const submit = () => {
     setFetchSearchString(searchString);
   };
 
-  useEffect(() => {
-    setFeed(feedData);
-  }, [feedData, setFeed]);
+  // useEffect(() => {
+  //   setFeed(feedData);
+  // }, [feedData, setFeed]);
 
   return (
     <>
@@ -167,7 +170,9 @@ export function Home() {
         </Collapse>
       </Box>
       <Container maxW={'7xl'}>
-        <FeedList feed={feed} />
+        <Box>Rooms</Box>
+        <Box>Hello {name}</Box>
+        <Box>COurse {course}</Box>
       </Container>
     </>
   );
