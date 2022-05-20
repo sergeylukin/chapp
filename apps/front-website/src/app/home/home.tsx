@@ -18,7 +18,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 // import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
 import { MessageWithUser } from '@justt/api-interfaces';
-import { useStoreState } from '../store/hooks';
+import { useStoreState, useStoreActions } from '../store/hooks';
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -81,6 +81,9 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { name, course } = useStoreState((store) => store);
+  const { updateDataThunk } = useStoreActions((store) => store);
+  const [inputName, setInputName] = useState('');
+  const [inputCourse, setInputCourse] = useState('');
 
   const { isOpen, onToggle } = useDisclosure();
   // const [feed, setFeed] = useState<MessageWithUser[]>([]);
@@ -173,6 +176,31 @@ export function Home() {
         <Box>Rooms</Box>
         <Box>Hello {name}</Box>
         <Box>COurse {course}</Box>
+        <form
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            updateDataThunk({
+              name: inputName,
+              course: inputCourse,
+            });
+          }}
+        >
+          <Box>
+            <input
+              onChange={(evt) => setInputName(evt.target.value)}
+              value={inputName}
+              placeholder="name"
+            />
+          </Box>
+          <Box>
+            <input
+              onChange={(evt) => setInputCourse(evt.target.value)}
+              value={inputCourse}
+              placeholder="course"
+            />
+          </Box>
+          <input type="submit" value="Go!" />
+        </form>
       </Container>
     </>
   );
