@@ -1,42 +1,20 @@
-import { Thunk, thunk, Action, action } from 'easy-peasy';
+import { userModel, IUserModel } from './user.model';
+import { messagesModel, IMessagesModel } from './messages.model';
+import { roomModel, IRoomModel } from './room.model';
+import { roomsModel, IRoomsModel } from './rooms.model';
 
-interface IUpdateDataPayload {
-  name: string;
-  course: string;
+export interface IStoreModel {
+  userModel: IUserModel;
+  roomModel: IRoomModel;
+  messagesModel: IMessagesModel;
+  roomsModel: IRoomsModel;
 }
-
-export interface IStoreModelState {
-  name: string;
-  course: string;
-}
-
-export interface IStoreModelActions {
-  setName: Action<this, string>;
-  setCourse: Action<this, string>;
-}
-
-export interface IStoreModelThunks {
-  updateDataThunk: Thunk<this, IUpdateDataPayload>;
-}
-
-export interface IStoreModel
-  extends IStoreModelState,
-    IStoreModelActions,
-    IStoreModelThunks {}
 
 const model: IStoreModel = {
-  name: 'foo',
-  course: 'bar',
-  setName: action((state, payload) => {
-    state.name = payload;
-  }),
-  setCourse: action((state, payload) => {
-    state.course = payload;
-  }),
-  updateDataThunk: thunk((actions, payload) => {
-    actions.setName(payload.name);
-    actions.setCourse(payload.course);
-  }),
+  userModel,
+  messagesModel,
+  roomModel,
+  roomsModel,
 };
 
 export default model;

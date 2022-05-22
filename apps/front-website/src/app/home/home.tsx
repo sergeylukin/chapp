@@ -17,8 +17,9 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 // import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
-import { MessageWithUser } from '@justt/api-interfaces';
+// import { MessageWithUser } from '@justt/api-interfaces';
 import { useStoreState, useStoreActions } from '../store/hooks';
+import { IRoom } from '../store/models/room.model';
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -80,18 +81,26 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 };
 
 export function Home() {
-  const { name, course } = useStoreState((store) => store);
-  const { updateDataThunk } = useStoreActions((store) => store);
+  const { rooms } = useStoreState((store) => store['roomsModel']);
+  const roomName = useStoreState((store) => store['roomModel'].name);
+  const userName = useStoreState((store) => store['userModel'].name);
+  const fetchRooms = useStoreActions((actions) => actions['roomsModel'].fetch);
+  useEffect(() => {
+    fetchRooms();
+    // eslint-disable-next-line
+  }, []);
+  // const { updateDataThunk } = useStoreActions((store) => store.roomModel);
   const [inputName, setInputName] = useState('');
   const [inputCourse, setInputCourse] = useState('');
 
   const { isOpen, onToggle } = useDisclosure();
   // const [feed, setFeed] = useState<MessageWithUser[]>([]);
   const [searchString, setSearchString] = useState('');
-  const [fetchSearchString, setFetchSearchString] = useState('');
+  // const [fetchSearchString, setFetchSearchString] = useState('');
   // const feedData = useFeed(fetchSearchString);
   const submit = () => {
-    setFetchSearchString(searchString);
+    console.log(searchString);
+    // setFetchSearchString(searchString);
   };
 
   // useEffect(() => {
@@ -174,33 +183,11 @@ export function Home() {
       </Box>
       <Container maxW={'7xl'}>
         <Box>Rooms</Box>
-        <Box>Hello {name}</Box>
-        <Box>COurse {course}</Box>
-        <form
-          onSubmit={(evt) => {
-            evt.preventDefault();
-            updateDataThunk({
-              name: inputName,
-              course: inputCourse,
-            });
-          }}
-        >
-          <Box>
-            <input
-              onChange={(evt) => setInputName(evt.target.value)}
-              value={inputName}
-              placeholder="name"
-            />
-          </Box>
-          <Box>
-            <input
-              onChange={(evt) => setInputCourse(evt.target.value)}
-              value={inputCourse}
-              placeholder="course"
-            />
-          </Box>
-          <input type="submit" value="Go!" />
-        </form>
+        <ul>
+          {rooms.map((room: IRoom) => (
+            <li>{room.name}</li>
+          ))}
+        </ul>
       </Container>
     </>
   );
