@@ -13,7 +13,6 @@ import {
   User as UserModel,
   Room as RoomModel,
   Message as MessageModel,
-  Prisma,
 } from '@prisma/client';
 
 import { PrismaService } from './prisma.service';
@@ -141,9 +140,9 @@ export class AppController {
     messageData: {
       userId: string;
     }
-  ): Promise<UserModel> {
+  ): Promise<RoomModel> {
     const { userId } = messageData;
-    return await this.dataService.user.update({
+    await this.dataService.user.update({
       where: {
         id: Number(userId),
       },
@@ -154,6 +153,9 @@ export class AppController {
           },
         },
       },
+    });
+    return this.dataService.room.findUnique({
+      where: { id: Number(roomId) },
     });
   }
 

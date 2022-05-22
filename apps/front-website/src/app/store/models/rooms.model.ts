@@ -1,12 +1,12 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { IRoom } from './room.model';
+import { Room as RoomModel } from '@prisma/client';
 
 export interface IRoomsState {
-  rooms: IRoom[];
+  rooms: RoomModel[];
 }
 export interface IRoomsActions {
   clear: Action<this>;
-  fetched: Action<this, IRoom[]>;
+  fetched: Action<this, RoomModel[]>;
 }
 export interface IRoomsThunks {
   fetch: Thunk<this>;

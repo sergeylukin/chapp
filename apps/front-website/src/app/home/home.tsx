@@ -15,11 +15,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { Room as RoomModel } from '@prisma/client';
 
 // import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
 // import { MessageWithUser } from '@justt/api-interfaces';
 import { useStoreState, useStoreActions } from '../store/hooks';
-import { IRoom } from '../store/models/room.model';
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -70,7 +70,7 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
         _hover={{
           bg: 'pink.300',
         }}
-        onClick={() => {
+        onClick={(e) => {
           submit();
         }}
       >
@@ -82,8 +82,13 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { rooms } = useStoreState((store) => store['roomsModel']);
-  const roomName = useStoreState((store) => store['roomModel'].name);
+  const { setUsername, joinRoomThunk } = useStoreActions(
+    (actions) => actions['userModel']
+  );
   const userName = useStoreState((store) => store['userModel'].name);
+  const [localName, setLocalName] = useState(userName);
+  // const { joinRoomThunk } = useStoreAction((store) => store['userModel']);
+  const roomName = useStoreState((store) => store['roomModel'].name);
   const fetchRooms = useStoreActions((actions) => actions['roomsModel'].fetch);
   useEffect(() => {
     fetchRooms();
@@ -98,9 +103,8 @@ export function Home() {
   const [searchString, setSearchString] = useState('');
   // const [fetchSearchString, setFetchSearchString] = useState('');
   // const feedData = useFeed(fetchSearchString);
-  const submit = () => {
-    console.log(searchString);
-    // setFetchSearchString(searchString);
+  const submit = (): void => {
+    setUsername(localName);
   };
 
   // useEffect(() => {
@@ -182,10 +186,33 @@ export function Home() {
         </Collapse>
       </Box>
       <Container maxW={'7xl'}>
-        <Box>Rooms</Box>
+        <Box>Join</Box>
+        <Box>
+          <Input
+            placeholder="nickname"
+            width="100%"
+            onChange={(evt) => {
+              setLocalName(evt.target.value);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                submit();
+              }
+            }}
+            value={localName}
+            mr={5}
+          />
+        </Box>
         <ul>
-          {rooms.map((room: IRoom) => (
-            <li>{room.name}</li>
+          {rooms.map((room: RoomModel, index: number) => (
+            <li
+              key={index}
+              onClick={() => {
+                joinRoomThunk(room);
+              }}
+            >
+              {room.name}
+            </li>
           ))}
         </ul>
       </Container>

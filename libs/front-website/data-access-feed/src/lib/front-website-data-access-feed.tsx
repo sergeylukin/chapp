@@ -1,25 +1,64 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { User as UserModel, Room as RoomModel } from '@prisma/client';
 
-import { MessageWithUser, FEED_API_URL } from '@justt/api-interfaces';
+import { FEED_API_URL } from '@justt/api-interfaces';
 
-const findBy = async (searchString: string) =>
-  await axios.get(
-    `${FEED_API_URL}?searchString=${searchString}&take=40&skip=0&orderBy=asc`
-  );
-
-export function useFeed(searchString: string) {
-  const [feed, setFeed] = useState<MessageWithUser[]>([]);
-  useEffect(() => {
-    findBy(searchString).then((value) => {
-      setFeed(value.data);
-    });
-  }, [searchString]);
-  return feed;
+export interface IUserService {
+  joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;
+  findUsernameOrCreate: (username: string) => Promise<UserModel>;
 }
 
-export const feedApi = {
-  useFeed,
+interface User {
+  id: number;
+  name: string;
+}
+
+export const UserService: IUserService = {
+  joinRoom: async (userId: number, roomId: number) => {
+    console.log(userId, roomId);
+    return await axios
+      .post(
+        `${FEED_API_URL}room/${roomId}/join`,
+        {
+          userId: userId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => response.data);
+  },
+  findUsernameOrCreate: async (name: string) =>
+    await axios
+      .post(
+        `${FEED_API_URL}signup`,
+        {
+          name,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => response.data),
 };
 
-export default useFeed;
+// export function useFeed(searchString: string) {
+//   const [feed, setFeed] = useState<MessageWithUser[]>([]);
+//   useEffect(() => {
+//     findBy(searchString).then((value) => {
+//       setFeed(value.data);
+//     });
+//   }, [searchString]);
+//   return feed;
+// }
+
+export const api = {
+  UserService,
+};
+
+export default api;

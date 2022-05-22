@@ -23,4 +23,4 @@ export interface RoomWithMessages extends Room {
   messages: Message[];
 }
 
-export const FEED_API_URL = '/api/feed';
+export const FEED_API_URL = '/api/';

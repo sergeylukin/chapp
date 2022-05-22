@@ -1,5 +1,7 @@
 FROM node:14.5.0-alpine AS builder
 
+RUN apk add --no-cache bash
+
 WORKDIR /usr/app
 
 COPY package*.json ./
@@ -7,6 +9,8 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+RUN npm run prisma:generate
 
 RUN npm run build:web
 
