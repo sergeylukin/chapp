@@ -1,26 +1,18 @@
-import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { IMessage } from './message.model';
-import { Room as RoomModel } from '@prisma/client';
+import { Action, action } from 'easy-peasy';
+import { Room as RoomModel, Message as MessageModel } from '@prisma/client';
 
 interface IRoomModelState {
   room: RoomModel;
-  messages: IMessage[];
+  messages: MessageModel[];
 }
 
 interface IRoomModelActions {
-  setMessages: Action<this, IMessage[]>;
+  setMessages: Action<this, MessageModel[]>;
   setRoom: Action<this, RoomModel>;
   resetRoom: Action<this>;
 }
 
-interface IRoomModelThunks {
-  loadMessages: Thunk<this>;
-}
-
-export interface IRoomModel
-  extends IRoomModelState,
-    IRoomModelActions,
-    IRoomModelThunks {}
+export interface IRoomModel extends IRoomModelState, IRoomModelActions {}
 
 export const roomModel: IRoomModel = {
   room: {} as RoomModel,
@@ -34,17 +26,5 @@ export const roomModel: IRoomModel = {
   }),
   resetRoom: action((state) => {
     state.room = {} as RoomModel;
-  }),
-  // THUNKS
-  loadMessages: thunk((actions, payload) => {
-    // actions.setCourse(payload.course);
-    console.log('performing async operation to fetch msgs', payload);
-    actions.setMessages([
-      {
-        body: 'asdad',
-        userId: 1,
-        roomId: 1,
-      },
-    ]);
   }),
 };
