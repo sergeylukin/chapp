@@ -6,6 +6,7 @@ import { FEED_API_URL } from '@justt/api-interfaces';
 
 export interface IUserService {
   joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;
+  leaveRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   findUsernameOrCreate: (username: string) => Promise<UserModel>;
 }
 
@@ -20,6 +21,22 @@ export const UserService: IUserService = {
     return await axios
       .post(
         `${FEED_API_URL}room/${roomId}/join`,
+        {
+          userId: userId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => response.data);
+  },
+  leaveRoom: async (userId: number, roomId: number) => {
+    console.log(userId, roomId);
+    return await axios
+      .post(
+        `${FEED_API_URL}room/${roomId}/leave`,
         {
           userId: userId,
         },

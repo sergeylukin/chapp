@@ -1,16 +1,16 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
 import { IMessage } from './message.model';
+import { Room as RoomModel } from '@prisma/client';
 
-export type IRoom = {
-  id: number;
-  name: string;
+interface IRoomModelState {
+  room: RoomModel;
   messages: IMessage[];
-};
-
-type IRoomModelState = IRoom;
+}
 
 interface IRoomModelActions {
   setMessages: Action<this, IMessage[]>;
+  setRoom: Action<this, RoomModel>;
+  resetRoom: Action<this>;
 }
 
 interface IRoomModelThunks {
@@ -23,12 +23,17 @@ export interface IRoomModel
     IRoomModelThunks {}
 
 export const roomModel: IRoomModel = {
-  id: 0,
-  name: 'foo',
+  room: {} as RoomModel,
   messages: [],
   // ACTIONS
   setMessages: action((state, payload) => {
     state.messages = payload;
+  }),
+  setRoom: action((state, payload) => {
+    state.room = payload;
+  }),
+  resetRoom: action((state) => {
+    state.room = {} as RoomModel;
   }),
   // THUNKS
   loadMessages: thunk((actions, payload) => {

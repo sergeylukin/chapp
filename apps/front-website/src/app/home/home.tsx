@@ -82,13 +82,14 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { rooms } = useStoreState((store) => store['roomsModel']);
-  const { setUsername, joinRoomThunk } = useStoreActions(
+  const { setUsername, joinRoomThunk, leaveRoomThunk } = useStoreActions(
     (actions) => actions['userModel']
   );
   const userName = useStoreState((store) => store['userModel'].name);
+  const isInsideRoom = useStoreState((store) => store['userModel'].hasRoom);
+  const { room } = useStoreState((store) => store['roomModel']);
   const [localName, setLocalName] = useState(userName);
   // const { joinRoomThunk } = useStoreAction((store) => store['userModel']);
-  const roomName = useStoreState((store) => store['roomModel'].name);
   const fetchRooms = useStoreActions((actions) => actions['roomsModel'].fetch);
   useEffect(() => {
     fetchRooms();
@@ -185,37 +186,47 @@ export function Home() {
           <MobileBar setSearchString={setSearchString} submit={submit} />
         </Collapse>
       </Box>
-      <Container maxW={'7xl'}>
-        <Box>Join</Box>
-        <Box>
-          <Input
-            placeholder="nickname"
-            width="100%"
-            onChange={(evt) => {
-              setLocalName(evt.target.value);
-            }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                submit();
-              }
-            }}
-            value={localName}
-            mr={5}
-          />
-        </Box>
-        <ul>
-          {rooms.map((room: RoomModel, index: number) => (
-            <li
-              key={index}
-              onClick={() => {
-                joinRoomThunk(room);
+      {isInsideRoom ? (
+        <div>
+          <p>
+            {userName} you are in room {room.name}
+          </p>
+
+          <button onClick={(e) => leaveRoomThunk(room)}>Leave</button>
+        </div>
+      ) : (
+        <Container maxW={'7xl'}>
+          <Box>Join</Box>
+          <Box>
+            <Input
+              placeholder="nickname"
+              width="100%"
+              onChange={(evt) => {
+                setLocalName(evt.target.value);
               }}
-            >
-              {room.name}
-            </li>
-          ))}
-        </ul>
-      </Container>
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  submit();
+                }
+              }}
+              value={localName}
+              mr={5}
+            />
+          </Box>
+          <ul>
+            {rooms.map((room: RoomModel, index: number) => (
+              <li
+                key={index}
+                onClick={() => {
+                  joinRoomThunk(room);
+                }}
+              >
+                {room.name}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      )}
     </>
   );
 }
