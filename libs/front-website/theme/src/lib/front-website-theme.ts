@@ -24,16 +24,16 @@ export const slideDownAnimationKeyframesName = keyframes`
   }
 `;
 
-export const gradient = keyframes`
-0% {
-  background-position: 0% 50%;
-}
-50% {
-  background-position: 100% 50%;
-}
-100% {
-  background-position: 0% 50%;
-}
+export const gradientAnimationName = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 `;
 
 const shakeAnimationKeyframesName = keyframes`
@@ -83,7 +83,7 @@ const FormError = {
     login: {
       text: {
         color: 'var(--color-red)',
-      }
+      },
     },
   },
   baseStyle: {},
@@ -132,8 +132,8 @@ const Button = {
       animationDuration: '.6s',
       gridArea: 'button',
       border: 'none',
-      padding: '0 1rem',
       color: 'white',
+      px: 8,
       fontWeight: 'bold',
       borderRadius: '0.25rem',
       height: 'var(--input-height)',
@@ -166,7 +166,7 @@ export const frontWebsiteTheme = extendTheme({
       ':root': {
         '--color-red': '#d3d',
         '--color-gray': '#fc6',
-        '--color-blue': '#09f',
+        '--color-blue': '#ffb521',
         '--color-green': '#66db69',
         '--input-height': '3rem',
         '--transition-duration': '0.3s',
@@ -177,17 +177,14 @@ export const frontWebsiteTheme = extendTheme({
         animation: `${slideDownAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
       },
 
+      '.u-shadow': {
+        boxShadow: '0 0.5rem 1rem #0003',
+      },
+
       '.ui-form': {
-        overflow: 'hidden',
         background: '#fff',
-        // boxShadow: '0 0.5rem 1rem #0003',
-        padding: '1rem',
+        width: '100%',
         borderRadius: '0.25rem',
-        display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        gridTemplateRows: '1fr',
-        gridColumnGap: '1rem',
-        gridTemplateAreas: "'input button'",
         transition: 'all var(--transition-duration) var(--transition-easing)',
         willChange: 'transform',
 
@@ -198,8 +195,7 @@ export const frontWebsiteTheme = extendTheme({
       },
 
       "ui-form[data-state='subscribe']": {
-        animation:
-          `${slideUpAnimationKeyframesName} var(--animation-duration) var(--transition-easing)`,
+        animation: `${slideUpAnimationKeyframesName} var(--animation-duration) var(--transition-easing)`,
       },
 
       ".ui-form[data-state='success']": {
@@ -211,7 +207,7 @@ export const frontWebsiteTheme = extendTheme({
         animation: `${shakeAnimationKeyframesName} 1s ease`,
       },
       '[data-show]:not([data-active])': {
-        display: 'none'
+        display: 'none',
       },
     },
   },

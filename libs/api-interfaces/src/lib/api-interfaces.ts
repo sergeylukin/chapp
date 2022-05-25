@@ -1,3 +1,5 @@
+import { Message as MessageModel } from '@prisma/client';
+
 export interface BaseEntity {
   id: number | null;
 }
@@ -10,6 +12,7 @@ export interface Message extends BaseEntity {
 export interface MessageWithUser extends Message {
   user: User;
 }
+export type IMessage = Omit<MessageModel, 'createdAt' | 'updatedAt' | 'id'>;
 
 export interface User extends BaseEntity {
   username?: string;

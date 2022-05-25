@@ -4,6 +4,7 @@ import { useMemo, useRef, useEffect } from 'react';
 import {
   Input,
   Box,
+  HStack,
   keyframes,
   Flex,
   Button,
@@ -12,6 +13,7 @@ import {
   // FormHelperText,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 import { useStoreState, useStoreActions } from '../store/hooks';
 import Logo from './logo';
@@ -24,50 +26,56 @@ const Login = () => {
   const fetchRooms = useStoreActions((actions) => actions['roomsModel'].fetch);
   useEffect(() => {
     fetchRooms();
+    if (inputRef.current) inputRef.current.focus();
     // eslint-disable-next-line
   }, []);
 
   const logoRef = useRef();
+  const inputRef = useRef();
+
+  const schema = Yup.object().shape({
+    username: Yup.string().required('oh, seriously, I need it...').min(3),
+  });
 
   return (
     <Box w="100%" h="200vh" bgSize="400% 400%">
       <Formik
         initialValues={{ username: '' }}
-        validateOnChange={false}
-        validate={(values) => {
-          const errors = {};
-          if (!values.username) {
-            errors.username = 'Required';
-          } else if (values.username.length < 4) {
-            errors.username = 'Too short';
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setStatus, setSubmitting }) => {
-          setStatus('success');
-          setTimeout(() => {
-            setUsername(values.username);
-            logoRef.current.playCloseAnimation();
-            setTimeout(() => {
-              joinRoomThunk(rooms[0]);
-            }, 800);
-            setSubmitting(false);
-          }, 400);
+        onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+          setSubmitting(true);
+          setStatus('subscribing');
+          schema
+            .validate(values, {
+              abortEarly: false, // not to stop on single validation fail
+              // and return single error message
+            })
+            .then(() => {
+              setStatus('success');
+              setTimeout(() => {
+                setUsername(values.username);
+                logoRef.current.playCloseAnimation();
+                setTimeout(() => {
+                  joinRoomThunk(rooms[0]);
+                  setSubmitting(false);
+                }, 800);
+              }, 400);
+            })
+            .catch((err) => {
+              setStatus('error');
+              setSubmitting(false);
+              const errors = {};
+              Object.keys(values).forEach((key, idx) => {
+                if (err && err.errors && err.errors[idx]) {
+                  errors[key] = err.errors[idx];
+                }
+              });
+
+              setErrors(errors);
+            });
         }}
       >
-        {(formikObj) => {
-          const { isSubmitting, errors } = formikObj;
-          console.log(formikObj);
-          let state = 'subscribe';
-          if (isSubmitting) {
-            state = 'subscribing';
-          }
-          if (Object.keys(errors).length > 0) {
-            state = 'error';
-          }
-          if (isSubmitting && Object.keys(errors).length === 0) {
-            state = 'success';
-          }
+        {({ status, isSubmitting }) => {
+          console.log(isSubmitting);
           return (
             <Flex
               direction="column"
@@ -85,34 +93,37 @@ const Login = () => {
                 <Logo title="Chapp" ref={logoRef} />;
               </Flex>
               <Box>
-                <Form className="ui-form" data-state={state}>
-                  <Field type="username" name="username">
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={
-                          form.errors.username && form.touched.username
-                        }
-                      >
-                        <Input
-                          {...field}
-                          variant="login"
-                          id="username"
-                          placeholder="What's your name?"
-                        />
-                        <FormErrorMessage variant="login">
-                          {form.errors.username}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field>
-                  <Button
-                    colorScheme="teal"
-                    isLoading={isSubmitting}
-                    type="submit"
-                    variant="login"
-                  >
-                    Let's talk
-                  </Button>
+                <Form className="ui-form" data-state={status}>
+                  <HStack w="full" spacing={3} alignItems="start">
+                    <Field type="username" name="username">
+                      {({ field, form }) => (
+                        <FormControl
+                          isInvalid={
+                            form.errors.username && form.touched.username
+                          }
+                        >
+                          <Input
+                            {...field}
+                            variant="login"
+                            id="username"
+                            placeholder="What's your name?"
+                            ref={inputRef}
+                          />
+                          <FormErrorMessage variant="login">
+                            {form.errors.username}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Button
+                      colorScheme="teal"
+                      isLoading={isSubmitting}
+                      type="submit"
+                      variant="login"
+                    >
+                      Let's talk
+                    </Button>
+                  </HStack>
                 </Form>
               </Box>
             </Flex>

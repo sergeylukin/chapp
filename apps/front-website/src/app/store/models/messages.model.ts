@@ -1,16 +1,18 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { Message as MessageModel } from '@prisma/client';
+import { Injections } from '../';
+import { IStoreModel } from './';
+import { IMessage } from '@justt/api-interfaces';
 
 type IMessagesModelState = {
-  messages: MessageModel[];
+  messages: IMessage[];
 };
 
 interface IMessagesModelActions {
-  setMessages: Action<this, MessageModel[]>;
+  setMessages: Action<this, IMessage[]>;
 }
 
 interface IMessagesModelThunks {
-  loadMessagesThunk: Thunk<this>;
+  loadMessagesThunk: Thunk<this, undefined, Injections, IStoreModel>;
 }
 
 export interface IMessagesModel
@@ -25,10 +27,13 @@ export const messagesModel: IMessagesModel = {
     state.messages = payload;
   }),
   // THUNKS
-  loadMessagesThunk: thunk((actions, payload) => {
-    // actions.setCourse(payload.course);
-    console.log('performing async operation to fetch msgs', payload);
-    console.log(actions);
-    // actions.setMessages();
-  }),
+  loadMessagesThunk: thunk(
+    async (actions, payload, { injections, getStoreState }) => {
+      const { UserService } = injections;
+      const messages = await UserService.fetchMessages(
+        getStoreState().roomModel.room.id
+      );
+      actions.setMessages(messages);
+    }
+  ),
 };

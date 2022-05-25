@@ -1,13 +1,19 @@
 // import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { User as UserModel, Room as RoomModel } from '@prisma/client';
+import {
+  Message as MessageModel,
+  User as UserModel,
+  Room as RoomModel,
+} from '@prisma/client';
 
-import { FEED_API_URL } from '@justt/api-interfaces';
+import { IMessage, FEED_API_URL } from '@justt/api-interfaces';
 
 export interface IUserService {
   joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   leaveRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   findUsernameOrCreate: (username: string) => Promise<UserModel>;
+  sendMessage: (message: IMessage) => Promise<MessageModel>;
+  fetchMessages: (roomId: number) => Promise<MessageModel[]>;
 }
 
 interface User {
@@ -61,6 +67,14 @@ export const UserService: IUserService = {
           },
         }
       )
+      .then((response) => response.data),
+  sendMessage: async (message: IMessage) =>
+    await axios
+      .post(`${FEED_API_URL}room/${message.roomId}/message`, message)
+      .then((response) => response.data),
+  fetchMessages: async (roomId) =>
+    await axios
+      .get(`${FEED_API_URL}room/${roomId}/messages`)
       .then((response) => response.data),
 };
 

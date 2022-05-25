@@ -1,88 +1,50 @@
-import { useRef } from 'react';
-import {
-  Button,
-  Input,
-  Stack,
-  useColorModeValue,
-  Box,
-  Flex,
-} from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { VStack, Box, Flex } from '@chakra-ui/react';
 
-import { IMessageBody } from '../store/models/message.model';
+import { gradientAnimationName } from '@justt/front-website/theme';
 import { useStoreState, useStoreActions } from '../store/hooks';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import MessageForm from './messageform';
 
 const Room = () => {
   const { room } = useStoreState((store) => store['roomModel']);
 
   const { user } = useStoreState((store) => store['userModel']);
-  const { leaveRoomThunk } = useStoreActions(
-    (actions) => actions['userModel']
+  const { messages } = useStoreState((store) => store['messagesModel']);
+  const { leaveRoomThunk } = useStoreActions((actions) => actions['userModel']);
+  const { loadMessagesThunk } = useStoreActions(
+    (actions) => actions['messagesModel']
   );
 
-  const { message } = useStoreState((store) => store['messageModel']);
-  const { setMessageBody, sendMessageThunk } = useStoreActions(
-    (actions) => actions['messageModel']
-  );
-
-  const messageInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    loadMessagesThunk();
+    // eslint-disable-next-line
+  }, []);
 
   return (
-    <Box w="100%" h="200vh" bgSize="400% 400%">
-      <p>
-        {user.name} you are in room {room.name}
-      </p>
+    <Box
+      w="100%"
+      h="100vh"
+      bgGradient="linear(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)"
+      bgSize="400% 400%"
+      animation={`${gradientAnimationName} 15s ease infinite`}
+    >
+      <VStack spacing={2} py={6} px={6} h="full">
+        <Flex h="full">
+          <p>
+            {user.name} | {room.name}
+          </p>
 
-      <button onClick={() => leaveRoomThunk(room)}>Leave</button>
-
-      <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}
-      >
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Input
-            ref={messageInputRef}
-            placeholder="So how is your day going?"
-            width="100%"
-            onChange={(evt) => setMessageBody(evt.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                sendMessageThunk(messageInputRef?.current?.value);
-              }
-            }}
-            value={message.body as IMessageBody}
-            mr={5}
-          />
+          <button onClick={() => leaveRoomThunk(room)}>Leave</button>
         </Flex>
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}
-        >
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={'pink.400'}
-            _hover={{
-              bg: 'pink.300',
-            }}
-            onClick={() => {
-              sendMessageThunk(messageInputRef?.current?.value);
-            }}
-          >
-            Send
-          </Button>
-        </Stack>
-      </Flex>
+        <ul>
+          {messages.map((message, index) => {
+            return <li key={index}>{message.body}</li>;
+          })}
+        </ul>
+        <MessageForm />
+      </VStack>
     </Box>
   );
 };

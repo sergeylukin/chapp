@@ -1,30 +1,21 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
 import { Injections } from '../';
 import { IStoreModel } from './';
-import {
-  User as UserModel,
-  Room as RoomModel,
-  Message as MessageModel,
-} from '@prisma/client';
-
-export type IMessageBody = string | undefined;
+import { User as UserModel, Room as RoomModel } from '@prisma/client';
+import { IMessage } from '@justt/api-interfaces';
 
 interface IMessageModelState {
-  message: MessageModel;
+  message: IMessage;
 }
 interface IMessageModelActions {
   setMessageBody: Action<this, string>;
   setMessageRoom: Action<this, RoomModel>;
   setMessageUser: Action<this, UserModel>;
+  setMessage: Action<this, IMessage>;
 }
 
 interface IMessageModelThunks {
-  sendMessageThunk: Thunk<
-    this,
-    null | string | number | readonly string[] | undefined,
-    Injections,
-    IStoreModel
-  >;
+  sendMessageThunk: Thunk<this, string, Injections, IStoreModel>;
 }
 
 export interface IMessageModel
@@ -33,7 +24,7 @@ export interface IMessageModel
     IMessageModelThunks {}
 
 export const messageModel: IMessageModel = {
-  message: {} as MessageModel,
+  message: {} as IMessage,
   // ACTIONS
   setMessageBody: action((state, body) => {
     state.message.body = body;
@@ -44,23 +35,31 @@ export const messageModel: IMessageModel = {
   setMessageUser: action((state, user) => {
     state.message.userId = user.id;
   }),
-  // THUNKS
-  sendMessageThunk: thunk((actions, payload, { injections, getState }) => {
-    // actions.setCourse(payload.course);
-    console.log(payload);
-    console.log(actions);
-    console.log(injections);
-
-    console.log(
-      'performing async operation to send msg:',
-      getState().message.body
-    );
-    // actions.setMessages([
-    //   {
-    //     body: 'asdad',
-    //     userId: 1,
-    //     roomId: 1,
-    //   },
-    // ]);
+  setMessage: action((state, message) => {
+    state.message = message;
   }),
+  // THUNKS
+  sendMessageThunk: thunk(
+    async (actions, msg, { injections, getStoreState, getStoreActions }) => {
+      const { UserService } = injections;
+      const user = getStoreState().userModel.user;
+      const room = getStoreState().roomModel.room;
+      const message = {
+        body: msg as string,
+        userId: user.id,
+        roomId: room.id,
+      };
+      actions.setMessage(message);
+      try {
+        const response = await UserService.sendMessage(message);
+        // getStoreActions().messagesModel.addMessage(message);
+        getStoreActions().messagesModel.setMessages([
+          ...getStoreState().messagesModel.messages,
+          message,
+        ]);
+      } catch (e) {
+        // failed, retry?
+      }
+    }
+  ),
 };
