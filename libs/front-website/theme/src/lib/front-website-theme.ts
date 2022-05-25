@@ -13,6 +13,29 @@ const slideUpAnimationKeyframesName = keyframes`
   }
 `;
 
+export const slideDownAnimationKeyframesName = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+`;
+
+export const gradient = keyframes`
+0% {
+  background-position: 0% 50%;
+}
+50% {
+  background-position: 100% 50%;
+}
+100% {
+  background-position: 0% 50%;
+}
+`;
+
 const shakeAnimationKeyframesName = keyframes`
   20%,
   40%,
@@ -142,7 +165,7 @@ export const frontWebsiteTheme = extendTheme({
     global: {
       ':root': {
         '--color-red': '#d3d',
-        '--color-gray': '#8c97b7',
+        '--color-gray': '#fc6',
         '--color-blue': '#09f',
         '--color-green': '#66db69',
         '--input-height': '3rem',
@@ -150,10 +173,14 @@ export const frontWebsiteTheme = extendTheme({
         '--transition-easing': 'cubic-bezier(0.5, 0, 0.5, 1)',
         '--animation-duration': '0.8s',
       },
+      '.u-anim-slideDown': {
+        animation: `${slideDownAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
+      },
+
       '.ui-form': {
         overflow: 'hidden',
         background: '#fff',
-        boxShadow: '0 0.5rem 1rem #0003',
+        // boxShadow: '0 0.5rem 1rem #0003',
         padding: '1rem',
         borderRadius: '0.25rem',
         display: 'grid',

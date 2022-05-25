@@ -1,4 +1,4 @@
-import '@fontsource/festive/700.css';
+import '@fontsource/festive/400.css';
 import '@fontsource/open-sans/400.css';
 
 import { useStoreRehydrated } from 'easy-peasy';
