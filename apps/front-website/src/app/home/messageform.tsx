@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import { useStoreActions } from '../store/hooks';
 
 const schema = Yup.object().shape({
-  msg: Yup.string().required('Oh, I need it, seriously..').min(3),
+  msg: Yup.string().required('No empty messages, sorry'),
 });
 
 const MessageForm = () => {
@@ -63,8 +63,8 @@ const MessageForm = () => {
       }}
     >
       {({ status, isSubmitting }) => (
-        <Box className="ui-form u-shadow" p={2}>
-          <Form data-state={status}>
+        <Form data-state={status}>
+          <Box className="ui-form u-shadow" p={2}>
             <HStack w="100%" spacing={3} alignItems="start">
               <Field type="msg" name="msg">
                 {({ field, form }) => (
@@ -92,8 +92,8 @@ const MessageForm = () => {
                 Send
               </Button>
             </HStack>
-          </Form>
-        </Box>
+          </Box>
+        </Form>
       )}
     </Formik>
   );
