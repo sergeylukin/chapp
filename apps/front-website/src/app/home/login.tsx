@@ -56,7 +56,6 @@ const Login = () => {
                 logoRef.current.playCloseAnimation();
                 setTimeout(() => {
                   joinRoomThunk(rooms[0]);
-                  setSubmitting(false);
                 }, 800);
               }, 400);
             })

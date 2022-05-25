@@ -140,6 +140,20 @@ const Button = {
       backgroundColor: 'var(--color)',
       transition: 'inherit',
     },
+    logout: {
+      mt: 0,
+      animation: `${slideUpAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
+      animationDuration: '.6s',
+      gridArea: 'button',
+      border: 'none',
+      color: 'white',
+      px: 0,
+      fontWeight: 'bold',
+      borderRadius: '0.25rem',
+      height: 'var(--input-height)',
+      backgroundColor: 'var(--color)',
+      transition: 'inherit',
+    },
   },
   // The default size and variant values
   defaultProps: {
