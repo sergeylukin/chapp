@@ -75,7 +75,7 @@ services:
 databases:
   - name: chapp-db
     databaseName: chapp
-    ipAllowList: []
+    ipAllowList: ['79.179.93.133/32']
     plan: starter
     previewPlan: starter
     postgresMajorVersion: 14
