@@ -29,8 +29,8 @@ export const messagesModel: IMessagesModel = {
   // THUNKS
   loadMessagesThunk: thunk(
     async (actions, payload, { injections, getStoreState }) => {
-      const { UserService } = injections;
-      const messages = await UserService.fetchMessages(
+      const { DataService } = injections;
+      const messages = await DataService.fetchMessages(
         getStoreState().roomModel.room.id
       );
       actions.setMessages(messages);

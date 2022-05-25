@@ -8,7 +8,7 @@ import {
 
 import { IMessage, FEED_API_URL } from '@chapp/api-interfaces';
 
-export interface IUserService {
+export interface IDataService {
   joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   leaveRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   findUsernameOrCreate: (username: string) => Promise<UserModel>;
@@ -21,7 +21,7 @@ interface User {
   name: string;
 }
 
-export const UserService: IUserService = {
+export const DataService: IDataService = {
   joinRoom: async (userId: number, roomId: number) => {
     console.log(userId, roomId);
     return await axios
@@ -89,7 +89,7 @@ export const UserService: IUserService = {
 // }
 
 export const api = {
-  UserService,
+  DataService,
 };
 
 export default api;

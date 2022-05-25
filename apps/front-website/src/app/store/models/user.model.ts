@@ -50,11 +50,11 @@ export const userModel: IUserModel = {
   // THUNKS
   joinRoomThunk: thunk(
     async (actions, room, { injections, getState, getStoreActions }) => {
-      const { UserService } = injections;
-      const user = await UserService.findUsernameOrCreate(getState().name);
+      const { DataService } = injections;
+      const user = await DataService.findUsernameOrCreate(getState().name);
       actions.setUser(user);
       const { setRoom } = getStoreActions().roomModel;
-      UserService.joinRoom(user.id, room.id).then((room: RoomModel) => {
+      DataService.joinRoom(user.id, room.id).then((room: RoomModel) => {
         actions.setRoom(room);
         setRoom(room);
       });
@@ -64,10 +64,10 @@ export const userModel: IUserModel = {
     async (actions, room, { injections, getState, getStoreActions }) => {
       console.log(getState().room);
       console.log(room);
-      const { UserService } = injections;
-      const user = await UserService.findUsernameOrCreate(getState().name);
+      const { DataService } = injections;
+      const user = await DataService.findUsernameOrCreate(getState().name);
       const { resetRoom } = getStoreActions().roomModel;
-      UserService.leaveRoom(user.id, room.id).then(() => {
+      DataService.leaveRoom(user.id, room.id).then(() => {
         actions.resetRoom();
         resetRoom();
       });

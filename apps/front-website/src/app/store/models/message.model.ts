@@ -41,7 +41,7 @@ export const messageModel: IMessageModel = {
   // THUNKS
   sendMessageThunk: thunk(
     async (actions, msg, { injections, getStoreState, getStoreActions }) => {
-      const { UserService } = injections;
+      const { DataService } = injections;
       const user = getStoreState().userModel.user;
       const room = getStoreState().roomModel.room;
       const message = {
@@ -51,7 +51,7 @@ export const messageModel: IMessageModel = {
       };
       actions.setMessage(message);
       try {
-        const response = await UserService.sendMessage(message);
+        const response = await DataService.sendMessage(message);
         // getStoreActions().messagesModel.addMessage(message);
         getStoreActions().messagesModel.setMessages([
           ...getStoreState().messagesModel.messages,

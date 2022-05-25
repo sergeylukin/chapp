@@ -1,17 +1,14 @@
 import { createStore, persist } from 'easy-peasy';
 import model from './models';
-import {
-  UserService,
-  IUserService,
-} from '@chapp/front-website/data-access-feed';
+import { DataService, IDataService } from '@chapp/shared-data';
 
 export interface Injections {
-  UserService: IUserService;
+  DataService: IDataService;
 }
 
 const store = createStore(persist(model), {
   injections: {
-    UserService,
+    DataService,
   },
 });
 

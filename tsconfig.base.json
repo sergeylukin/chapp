@@ -16,10 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@chapp/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@chapp/front-website/data-access-feed": [
-        "libs/front-website/data-access-feed/src/index.ts"
-      ],
-      "@chapp/front-website/theme": ["libs/front-website/theme/src/index.ts"]
+      "@chapp/front-website/theme": ["libs/front-website/theme/src/index.ts"],
+      "@chapp/shared-data": ["libs/shared/data/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
