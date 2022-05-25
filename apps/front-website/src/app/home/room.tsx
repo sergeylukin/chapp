@@ -97,7 +97,7 @@ const Room = () => {
             })}
           </ul>
         </Flex>
-        <Flex h="7vh" w="full">
+        <Flex w="full">
           <MessageForm />
         </Flex>
       </VStack>

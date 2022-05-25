@@ -63,7 +63,7 @@ const MessageForm = () => {
       }}
     >
       {({ status, isSubmitting }) => (
-        <Form data-state={status}>
+        <Form data-state={status} style={{ width: '100%' }}>
           <Box className="ui-form u-shadow" p={2}>
             <HStack w="100%" spacing={3} alignItems="start">
               <Field type="msg" name="msg">
