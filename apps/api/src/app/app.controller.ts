@@ -8,7 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { MessageWithUser } from '@justt/api-interfaces';
+import { MessageWithUser } from '@chapp/api-interfaces';
 import {
   User as UserModel,
   Room as RoomModel,

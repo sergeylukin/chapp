@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MessageWithUser } from '@justt/api-interfaces';
+import { MessageWithUser } from '@chapp/api-interfaces';
 
 const StyledFrontWebsiteFeatureFeedList = styled.div`
   color: black;

@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-import { gradientAnimationName } from '@justt/front-website/theme';
+import { gradientAnimationName } from '@chapp/front-website/theme';
 import { useStoreState, useStoreActions } from '../store/hooks';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

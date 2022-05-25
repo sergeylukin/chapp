@@ -1,14 +1,14 @@
-# JUSTT
+# CHAPP
 
 ## Live demos
 
 API Swagger:
 
-https://justt.sergeylukin.com/api/
+https://chapp.sergeylukin.com/api/
 
 LIVE demo (auto synced with `main` branch)
 
-https://justt.sergeylukin.com/
+https://chapp.sergeylukin.com/
 
 ## Quick start
 
@@ -87,11 +87,11 @@ instructions below on how to build and run each docker image separately.
 - Build
 
   ```bash
-  DOCKER_BUILDKIT=1 docker build -t justt/api -f apps/api/Dockerfile .
+  DOCKER_BUILDKIT=1 docker build -t chapp/api -f apps/api/Dockerfile .
   # Pay attention we're targetting builder stage specifically! All we need here
   # is `npm install` so that we could run `npm run serve:web` to develop the
   # app rather than having nginx serving static dist/ folder
-  DOCKER_BUILDKI=1 docker build --target builder -t justt/app -f apps/front-website/Dockerfile .
+  DOCKER_BUILDKI=1 docker build --target builder -t chapp/app -f apps/front-website/Dockerfile .
   ```
 
 - Finally, run all the things:
@@ -99,18 +99,18 @@ instructions below on how to build and run each docker image separately.
   ```bash
   # DB
   docker run -it --rm -e POSTGRES_DB=prisma -e POSTGRES_USER=prisma \
-  -e POSTGRES_PASSWORD=prisma -p 5432:5432 --name=justt-db \
+  -e POSTGRES_PASSWORD=prisma -p 5432:5432 --name=chapp-db \
   --mount type=bind,source="$(pwd)/tmp/postgres",destination=/var/lib/postgresql/data postgres:14-alpine
 
   # API - please notice we're loading environment variables from .env and then we overwrite the DB_HOST value - it's required unless both api and db are on same network - I prefer to create less stuff so I'm fine with this overwrite vs network setup. Oh and it will only work on OS X and Linux, Windows has some other resolvable hostname, please check docs
-  docker run -it --rm --env-file .env -e DB_HOST=host.docker.internal -p 3333:3333 --name justt-api justt/api
+  docker run -it --rm --env-file .env -e DB_HOST=host.docker.internal -p 3333:3333 --name chapp-api chapp/api
 
   # APP
-  docker run -it --rm -p 4200:4200 --name justt-app justt/app npm run serve:web
+  docker run -it --rm -p 4200:4200 --name chapp-app chapp/app npm run serve:web
 
   # NGINX webserver
   docker run -it --rm -e APP_HOST=host.docker.internal -e APP_PORT=4200 \
-   -e API_HOST=host.docker.internal -e API_PORT=3333 -p 80:80 --name=justt-web \
+   -e API_HOST=host.docker.internal -e API_PORT=3333 -p 80:80 --name=chapp-web \
    --mount type=bind,source="$(pwd)/nginx.conf.dev.template,destination=/etc/nginx/templates/default.conf.template" nginx:1.19.2
 
   ```
@@ -141,21 +141,21 @@ Regardless to which deployment method you choose for on premise production, you'
 - Build and run API:
 
   ```bash
-  DOCKER_BUILDKI=1 docker build -t justt/api -f apps/api/Dockerfile .
-  docker run -it --rm --env-file .env -p 443:443 --name justt-api justt/api
+  DOCKER_BUILDKI=1 docker build -t chapp/api -f apps/api/Dockerfile .
+  docker run -it --rm --env-file .env -p 443:443 --name chapp-api chapp/api
   ```
 
 - Build and run app (with nginx built-in):
 
   ```bash
-  DOCKER_BUILDKI=1 docker build -t justt/web -f apps/front-website/Dockerfile .
-  docker run -it --rm -p 443:443 -e API_HOST={YOUR API DOMAIN NAME} -e API_PORT=443 --name justt-web justt/web
+  DOCKER_BUILDKI=1 docker build -t chapp/web -f apps/front-website/Dockerfile .
+  docker run -it --rm -p 443:443 -e API_HOST={YOUR API DOMAIN NAME} -e API_PORT=443 --name chapp-web chapp/web
   ```
 
 ### Managed production
 
 Yay! Check out https://render.com/ and out of the box working [cluster
-configuration](./render.yaml) of this project ([LIVE DEMO](https://justt.sergeylukin.com/)).
+configuration](./render.yaml) of this project ([LIVE DEMO](https://chapp.sergeylukin.com/)).
 
 ## Tips for development
 

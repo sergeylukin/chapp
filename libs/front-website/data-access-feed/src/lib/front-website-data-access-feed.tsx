@@ -6,7 +6,7 @@ import {
   Room as RoomModel,
 } from '@prisma/client';
 
-import { IMessage, FEED_API_URL } from '@justt/api-interfaces';
+import { IMessage, FEED_API_URL } from '@chapp/api-interfaces';
 
 export interface IUserService {
   joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;

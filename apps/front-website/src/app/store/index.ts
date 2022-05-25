@@ -3,7 +3,7 @@ import model from './models';
 import {
   UserService,
   IUserService,
-} from '@justt/front-website/data-access-feed';
+} from '@chapp/front-website/data-access-feed';
 
 export interface Injections {
   UserService: IUserService;

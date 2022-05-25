@@ -1,7 +1,7 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
 import { Injections } from '../';
 import { IStoreModel } from './';
-import { IMessage } from '@justt/api-interfaces';
+import { IMessage } from '@chapp/api-interfaces';
 
 type IMessagesModelState = {
   messages: IMessage[];

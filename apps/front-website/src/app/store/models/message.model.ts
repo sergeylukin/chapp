@@ -2,7 +2,7 @@ import { Thunk, thunk, Action, action } from 'easy-peasy';
 import { Injections } from '../';
 import { IStoreModel } from './';
 import { User as UserModel, Room as RoomModel } from '@prisma/client';
-import { IMessage } from '@justt/api-interfaces';
+import { IMessage } from '@chapp/api-interfaces';
 
 interface IMessageModelState {
   message: IMessage;

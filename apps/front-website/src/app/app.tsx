@@ -4,7 +4,7 @@ import '@fontsource/open-sans/400.css';
 import { useStoreRehydrated } from 'easy-peasy';
 import { Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import { frontWebsiteTheme } from '@justt/front-website/theme';
+import { frontWebsiteTheme } from '@chapp/front-website/theme';
 
 import { Home } from './home/home';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
