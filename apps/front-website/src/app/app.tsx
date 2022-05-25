@@ -1,20 +1,16 @@
+import '@fontsource/festive/700.css';
+import '@fontsource/open-sans/400.css';
+
 import { useStoreRehydrated } from 'easy-peasy';
 import { Route } from 'react-router-dom';
-import { extendTheme, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { frontWebsiteTheme } from '@justt/front-website/theme';
 
 import { Home } from './home/home';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
-const colors = {
-  brand: {
-    500: '#2a69ac',
-  },
-};
-
-const theme = extendTheme({ colors });
-
 const ui = (child: ReactJSXElement) => (
-  <ChakraProvider theme={theme}>{child}</ChakraProvider>
+  <ChakraProvider theme={frontWebsiteTheme}>{child}</ChakraProvider>
 );
 
 export function App() {

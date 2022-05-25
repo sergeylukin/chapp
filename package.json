@@ -22,6 +22,8 @@
     "@chakra-ui/react": "1.8.6",
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
+    "@fontsource/festive": "^4.5.6",
+    "@fontsource/open-sans": "^4.5.10",
     "@nestjs/common": "8.4.1",
     "@nestjs/config": "2.0.0",
     "@nestjs/core": "8.4.1",
@@ -45,6 +47,7 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "7.5.5",
     "swagger-ui-express": "4.3.0",
+    "tslib": "^2.0.0",
     "use-lilius": "2.0.0",
     "uuid": "8.3.2"
   },

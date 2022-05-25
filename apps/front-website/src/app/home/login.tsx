@@ -3,10 +3,10 @@ import {
   Input,
   Box,
   keyframes,
-  Container,
+  Heading,
+  Flex,
   Button,
   FormControl,
-  FormLabel,
   FormErrorMessage,
   // FormHelperText,
 } from '@chakra-ui/react';
@@ -51,27 +51,31 @@ const Login = () => {
     >
       <Formik
         initialValues={{ username: '' }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.username) {
-            // eslint-disable-next-line
-            // @ts-ignore
-            errors.username = 'Required';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.username)
-          ) {
-            // eslint-disable-next-line
-            // @ts-ignore
-            errors.username = 'Invalid username address';
+        validateOnChange={false}
+        validate={
+          // eslint-disable-next-line
+          // @ts-ignore
+          (values) => {
+            const errors = {};
+            if (!values.username) {
+              // eslint-disable-next-line
+              // @ts-ignore
+              errors.username = 'Required';
+            } else if (values.username.length < 4) {
+              // eslint-disable-next-line
+              // @ts-ignore
+              errors.username = 'Too short';
+            }
+            return errors;
           }
-          return errors;
-        }}
+        }
         onSubmit={
           // eslint-disable-next-line
           // @ts-ignore
-          (values, { setSubmitting }) => {
+          (values, { setStatus, setSubmitting }) => {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
+              setStatus('success');
               setSubmitting(false);
             }, 400);
           }
@@ -80,43 +84,60 @@ const Login = () => {
         {
           // eslint-disable-next-line
           // @ts-ignore
-          ({ isSubmitting }) => (
-            <Container width={'3xl'}>
-              <Form>
-                <Field type="username" name="username">
-                  {
-                    // eslint-disable-next-line
-                    // @ts-ignore
-                    ({ field, form }) => (
-                      <FormControl
-                        isInvalid={
-                          form.errors.username && form.touched.username
-                        }
-                      >
-                        <FormLabel htmlFor="username">Username</FormLabel>
-                        <Input
-                          {...field}
-                          id="username"
-                          placeholder="username"
-                        />
-                        <FormErrorMessage>
-                          {form.errors.username}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )
-                  }
-                </Field>
-                <Button
-                  mt={4}
-                  colorScheme="teal"
-                  isLoading={isSubmitting}
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </Form>
-            </Container>
-          )
+          (formikObj) => {
+            const { isSubmitting, errors } = formikObj;
+            console.log(formikObj);
+            let state = 'subscribe';
+            if (isSubmitting) {
+              state = 'subscribing';
+            }
+            if (Object.keys(errors).length > 0) {
+              state = 'error';
+            }
+            if (isSubmitting && Object.keys(errors).length === 0) {
+              state = 'success';
+            }
+            return (
+              <Flex height="100vh" alignItems="center" justifyContent="center">
+                <Heading>ChaPP</Heading>
+                <Box width={'3xl'}>
+                  <Form className="ui-form" data-state={state}>
+                    <Field type="username" name="username">
+                      {
+                        // eslint-disable-next-line
+                        // @ts-ignore
+                        ({ field, form }) => (
+                          <FormControl
+                            isInvalid={
+                              form.errors.username && form.touched.username
+                            }
+                          >
+                            <Input
+                              {...field}
+                              variant="login"
+                              id="username"
+                              placeholder="What's your name?"
+                            />
+                            <FormErrorMessage variant="login">
+                              {form.errors.username}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )
+                      }
+                    </Field>
+                    <Button
+                      colorScheme="teal"
+                      isLoading={isSubmitting}
+                      type="submit"
+                      variant="login"
+                    >
+                      Submit
+                    </Button>
+                  </Form>
+                </Box>
+              </Flex>
+            );
+          }
         }
       </Formik>
       {/*<form class="ui-form">
