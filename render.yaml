@@ -2,12 +2,12 @@ previewsEnabled: true
 previewsExpireAfterDays: 1
 services:
   - type: web
-    name: api
+    name: chapp-api
     env: docker
     domains:
-      - justt-api.sergeylukin.com
+      - chapp-api.sergeylukin.com
     dockerfilePath: ./apps/api/Dockerfile
-    repo: 'https://github.com/sergeylukin/justt-another-assignment-solution.git'
+    repo: 'https://github.com/sergeylukin/chapp'
     dockerCommand: ./apps/api/entrypoint.sh
     healthCheckPath: /api
     numInstances: 1
@@ -18,29 +18,29 @@ services:
         value: 0.0.0.0
       - key: DB_HOST
         fromDatabase:
-          name: justt-db
+          name: chapp-db
           property: host
       - key: DB_PORT
         fromDatabase:
-          name: justt-db
+          name: chapp-db
           property: port
       - key: DB_USER
         fromDatabase:
-          name: justt-db
+          name: chapp-db
           property: user
       - key: DB_PASS
         fromDatabase:
-          name: justt-db
+          name: chapp-db
           property: password
       - key: DB_NAME
         fromDatabase:
-          name: justt-db
+          name: chapp-db
           property: database
   - type: web
-    name: app
+    name: chapp-app
     env: static
     domains:
-      - justt.sergeylukin.com
+      - chapp.sergeylukin.com
     buildCommand: 'npm run build:web'
     staticPublishPath: ./dist/apps/front-website
     headers:
@@ -55,26 +55,26 @@ services:
       - key: API_HOST
         fromService:
           type: web
-          name: api
+          name: chapp-api
           property: host
       - key: API_PORT
         fromService:
           type: web
-          name: api
+          name: chapp-api
           property: port
     routes:
       - type: rewrite
         source: /api/
-        destination: 'https://justt-api.sergeylukin.com/api/'
+        destination: 'https://chapp-api.sergeylukin.com/api/'
       - type: redirect
         source: /api
         destination: '/api/'
       - type: rewrite
         source: /api/*
-        destination: 'https://justt-api.sergeylukin.com/api/*'
+        destination: 'https://chapp-api.sergeylukin.com/api/*'
 databases:
-  - name: justt-db
-    databaseName: justt
+  - name: chapp-db
+    databaseName: chapp
     ipAllowList: []
     plan: starter
     previewPlan: starter
