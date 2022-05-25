@@ -19,9 +19,6 @@
       "@chapp/front-website/data-access-feed": [
         "libs/front-website/data-access-feed/src/index.ts"
       ],
-      "@chapp/front-website/feature-feed-list": [
-        "libs/front-website/feature-feed-list/src/index.ts"
-      ],
       "@chapp/front-website/theme": ["libs/front-website/theme/src/index.ts"]
     }
   },
