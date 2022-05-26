@@ -2,16 +2,6 @@
   "root": "libs/front-website/theme",
   "sourceRoot": "libs/front-website/theme/src",
   "targets": {
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/front-website/theme",
-        "main": "libs/front-website/theme/src/index.ts",
-        "tsConfig": "libs/front-website/theme/tsconfig.lib.json",
-        "assets": ["libs/front-website/theme/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
