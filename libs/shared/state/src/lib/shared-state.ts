@@ -6,10 +6,8 @@ export interface Injections {
   DataService: IDataService;
 }
 
-const store = createStore(persist(model), {
+export const store = createStore(persist(model), {
   injections: {
     DataService,
   },
 });
-
-export default store;

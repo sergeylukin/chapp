@@ -13,7 +13,7 @@ import {
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { gradientAnimationName } from '@chapp/front-website/theme';
-import { useStoreState, useStoreActions } from '../store/hooks';
+import { useStoreState, useStoreActions } from '@chapp/shared-state';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import MessageForm from './messageform';

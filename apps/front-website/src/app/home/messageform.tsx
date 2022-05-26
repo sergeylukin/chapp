@@ -12,7 +12,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
-import { useStoreActions } from '../store/hooks';
+import { useStoreActions } from '@chapp/shared-state';
 
 const schema = Yup.object().shape({
   msg: Yup.string().required('No empty messages, sorry'),

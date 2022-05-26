@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { StoreProvider } from 'easy-peasy';
 
 import App from './app/app';
-import store from './app/store';
+import { store } from '@chapp/shared-state';
 
 ReactDOM.render(
   <StrictMode>

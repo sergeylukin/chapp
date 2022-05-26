@@ -1,11 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { useMemo, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import {
   Input,
   Box,
   HStack,
-  keyframes,
   Flex,
   Button,
   FormControl,
@@ -15,7 +14,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
-import { useStoreState, useStoreActions } from '../store/hooks';
+import { useStoreState, useStoreActions } from '@chapp/shared-state';
 import Logo from './logo';
 
 const Login = () => {

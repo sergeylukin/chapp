@@ -77,19 +77,3 @@ export const DataService: IDataService = {
       .get(`${FEED_API_URL}room/${roomId}/messages`)
       .then((response) => response.data),
 };
-
-// export function useFeed(searchString: string) {
-//   const [feed, setFeed] = useState<MessageWithUser[]>([]);
-//   useEffect(() => {
-//     findBy(searchString).then((value) => {
-//       setFeed(value.data);
-//     });
-//   }, [searchString]);
-//   return feed;
-// }
-
-export const api = {
-  DataService,
-};
-
-export default api;

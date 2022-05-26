@@ -1,7 +1,7 @@
 import ChatRoomView from './room';
 import LoginView from './login';
 
-import { useStoreState } from '../store/hooks';
+import { useStoreState } from '@chapp/shared-state';
 
 export function Home() {
   const isInsideRoom = useStoreState((store) => store['userModel'].hasRoom);

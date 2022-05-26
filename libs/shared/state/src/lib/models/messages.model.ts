@@ -1,5 +1,5 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { Injections } from '../';
+import { Injections } from '@chapp/shared-state';
 import { IStoreModel } from './';
 import { IMessage } from '@chapp/api-interfaces';
 

@@ -1,5 +1,5 @@
 import { Computed, computed, Thunk, thunk, Action, action } from 'easy-peasy';
-import { Injections } from '../';
+import { Injections } from '@chapp/shared-state';
 import { IStoreModel } from './';
 import { User as UserModel, Room as RoomModel } from '@prisma/client';
 
