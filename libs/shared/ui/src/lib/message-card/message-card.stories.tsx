@@ -11,6 +11,9 @@ export default {
       body: 'Hello there!',
       userId: 2,
       roomId: 3,
+      user: {
+        name: 'silvia',
+      },
     },
   },
   parameters: {

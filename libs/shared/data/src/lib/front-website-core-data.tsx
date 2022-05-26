@@ -6,14 +6,14 @@ import {
   Room as RoomModel,
 } from '@prisma/client';
 
-import { IMessage, FEED_API_URL } from '@chapp/api-interfaces';
+import { MessageWithUser, IMessage, FEED_API_URL } from '@chapp/api-interfaces';
 
 export interface IDataService {
   joinRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   leaveRoom: (userId: number, roomId: number) => Promise<RoomModel>;
   findUsernameOrCreate: (username: string) => Promise<UserModel>;
   sendMessage: (message: IMessage) => Promise<MessageModel>;
-  fetchMessages: (roomId: number) => Promise<MessageModel[]>;
+  fetchMessages: (roomId: number) => Promise<MessageWithUser[]>;
 }
 
 interface User {

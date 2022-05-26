@@ -1,5 +1,5 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { Injections } from '@chapp/shared-state';
+import { Injections } from '../shared-state';
 import { IStoreModel } from './';
 import { User as UserModel, Room as RoomModel } from '@prisma/client';
 import { IMessage } from '@chapp/api-interfaces';
@@ -55,7 +55,10 @@ export const messageModel: IMessageModel = {
         // getStoreActions().messagesModel.addMessage(message);
         getStoreActions().messagesModel.setMessages([
           ...getStoreState().messagesModel.messages,
-          message,
+          {
+            ...message,
+            user,
+          },
         ]);
       } catch (e) {
         // failed, retry?

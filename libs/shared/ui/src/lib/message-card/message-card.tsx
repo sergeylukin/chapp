@@ -1,10 +1,10 @@
 import React from 'react';
-import { IMessage } from '@chapp/api-interfaces';
+import { MessageWithUser } from '@chapp/api-interfaces';
 import { Flex, Text, Avatar } from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface MessageCardProps {
-  message: IMessage;
+  message: MessageWithUser;
 }
 
 export function MessageCard({ message }: MessageCardProps) {
@@ -21,12 +21,23 @@ export function MessageCard({ message }: MessageCardProps) {
         color="black"
         minW="100px"
         maxW="350px"
-        my="1"
+        my="2"
         ml={3}
         p="3"
         borderRadius={5}
+        position="relative"
       >
         <Text>{message.body}</Text>
+        <Text
+          borderRadius={6}
+          py={0}
+          px={4}
+          bgColor={'gray.200'}
+          sx={{ position: 'absolute', top: -2, left: -1 }}
+          fontSize="xs"
+        >
+          {message.user.name}
+        </Text>
       </Flex>
     </Flex>
   );
