@@ -14,6 +14,7 @@ import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { gradientAnimationName } from '@chapp/front-website/theme';
 import { useStoreState, useStoreActions } from '@chapp/shared-state';
+import { MessageCard } from '@chapp/shared-ui';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import MessageForm from './messageform';
@@ -31,11 +32,6 @@ const Room = () => {
   const messagesContainerRef = useRef();
 
   useEffect(() => {
-    loadMessagesThunk();
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
     if (messagesContainerRef.current)
       messagesContainerRef.current.scroll({
         top: messagesContainerRef.current.scrollHeight,
@@ -44,8 +40,10 @@ const Room = () => {
   }, [messages]);
 
   useEffect(() => {
+    loadMessagesThunk();
     const timer = setInterval(loadMessagesThunk, 5000);
     return () => clearInterval(timer);
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -73,26 +71,9 @@ const Room = () => {
           <ul>
             {messages.map((message, index) => {
               return (
-                <Flex key={index} w="100%">
-                  <Avatar
-                    name="Computer"
-                    src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
-                    bg="blue.300"
-                    mt={2}
-                  ></Avatar>
-                  <Flex
-                    bg="gray.100"
-                    color="black"
-                    minW="100px"
-                    maxW="350px"
-                    my="1"
-                    ml={3}
-                    p="3"
-                    borderRadius={5}
-                  >
-                    <Text>{message.body}</Text>
-                  </Flex>
-                </Flex>
+                <div key={index}>
+                  <MessageCard message={message} />
+                </div>
               );
             })}
           </ul>

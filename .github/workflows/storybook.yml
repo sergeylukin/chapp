@@ -1,0 +1,39 @@
+name: Netlify Chapp UI Storybook
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v2
+      - run: npm ci
+
+      - run: npx nx workspace-lint
+      # - run: npx nx format:check
+      - run: npx nx affected --target=build-storybook --parallel=3
+
+        # ( Build to ./dist or other directory... )
+
+      - name: Deploy to Netlify
+        uses: sergeylukin/actions-netlify@add-project-name-to-pr-comment
+        if: hashFiles('./dist/storybook/shared-ui') != ''
+        with:
+          project-name: 'Chapp UI storybook'
+          publish-dir: './dist/storybook/shared-ui'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploying Chapp UI Storybook from GH Actions"
+          enable-pull-request-comment: true
+          overwrites-pull-request-comment: true
+          enable-commit-comment: true
+          enable-deployment-status: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: courageous-maamoul-7ad496.netlify.app
+        timeout-minutes: 1
