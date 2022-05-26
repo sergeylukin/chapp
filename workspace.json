@@ -7,6 +7,7 @@
     "front-website-e2e": "apps/front-website-e2e",
     "front-website-theme": "libs/front-website/theme",
     "shared-data": "libs/shared/data",
-    "shared-state": "libs/shared/state"
+    "shared-state": "libs/shared/state",
+    "shared-ui": "libs/shared/ui"
   }
 }
