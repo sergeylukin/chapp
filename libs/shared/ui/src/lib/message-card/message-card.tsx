@@ -1,15 +1,15 @@
 import React from 'react';
-import { IMessage } from '@chapp/api-interfaces';
+import { MessageWithUser } from '@chapp/api-interfaces';
 import { Flex, Text, Avatar } from '@chakra-ui/react';
 
 /* eslint-disable-next-line */
 export interface MessageCardProps {
-  message: IMessage;
+  message: MessageWithUser;
 }
 
 export function MessageCard({ message }: MessageCardProps) {
   return (
-    <Flex key={index} w="100%">
+    <Flex w="100%">
       <Avatar
         name="Computer"
         src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
