@@ -93,12 +93,16 @@ export class AppController {
   }
 
   @Get('room/:id/messages')
-  async getMessagesByRoom(@Param('id') id: string): Promise<MessageModel[]> {
+  async getMessagesByRoom(@Param('id') id: string): Promise<MessageWithUser[]> {
     return this.dataService.room
       .findUnique({
         where: { id: Number(id) },
       })
-      .messages();
+      .messages({
+        include: {
+          user: true,
+        },
+      });
   }
 
   @Get('user/:id/messages')

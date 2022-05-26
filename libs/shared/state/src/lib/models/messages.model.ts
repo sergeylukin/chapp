@@ -1,14 +1,14 @@
 import { Thunk, thunk, Action, action } from 'easy-peasy';
-import { Injections } from '@chapp/shared-state';
+import { Injections } from '../shared-state';
 import { IStoreModel } from './';
-import { IMessage } from '@chapp/api-interfaces';
+import { MessageWithUser } from '@chapp/api-interfaces';
 
 type IMessagesModelState = {
-  messages: IMessage[];
+  messages: MessageWithUser[];
 };
 
 interface IMessagesModelActions {
-  setMessages: Action<this, IMessage[]>;
+  setMessages: Action<this, MessageWithUser[]>;
 }
 
 interface IMessagesModelThunks {
