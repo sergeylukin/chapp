@@ -65,13 +65,13 @@ services:
     routes:
       - type: rewrite
         source: /api/
-        destination: 'https://chapp-api.sergeylukin.com/api/'
+        destination: 'https://chapp-api-pr-2.onrender.com/api/'
       - type: redirect
         source: /api
         destination: '/api/'
       - type: rewrite
         source: /api/*
-        destination: 'https://chapp-api.sergeylukin.com/api/*'
+        destination: 'https://chapp-api-pr-2.onrender.com/api/*'
 databases:
   - name: chapp-db
     databaseName: chapp
