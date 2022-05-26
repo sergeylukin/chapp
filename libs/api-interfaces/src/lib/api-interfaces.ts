@@ -9,9 +9,7 @@ export interface Message extends BaseEntity {
   roomId: number;
   userId: number;
 }
-// export interface MessageWithUser extends Message {
-//   user: User;
-// }
+
 export type IMessage = Omit<MessageModel, 'createdAt' | 'updatedAt' | 'id'>;
 
 export interface User extends BaseEntity {
