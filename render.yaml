@@ -78,6 +78,8 @@ databases:
     ipAllowList:
       - source: 79.179.93.133/32
         description: home
+      - source: 54.176.149.52/32
+        description: hasura
     plan: starter
     previewPlan: starter
     postgresMajorVersion: 14
