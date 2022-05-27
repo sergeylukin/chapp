@@ -1,15 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { useRef, useEffect } from 'react';
-import {
-  HStack,
-  Button,
-  Text,
-  Avatar,
-  VStack,
-  Box,
-  Flex,
-} from '@chakra-ui/react';
+import { HStack, Button, Text, VStack, Box } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { gradientAnimationName } from '@chapp/front-website/theme';

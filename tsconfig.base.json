@@ -19,7 +19,7 @@
       "@chapp/front-website/theme": ["libs/front-website/theme/src/index.ts"],
       "@chapp/shared-data": ["libs/shared/data/src/index.ts"],
       "@chapp/shared-state": ["libs/shared/state/src/index.ts"],
-      "@chapp/shared/ui": ["libs/shared/ui/src/index.ts"]
+      "@chapp/shared-ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
