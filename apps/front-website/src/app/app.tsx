@@ -1,5 +1,6 @@
 import '@fontsource/festive/400.css';
 import '@fontsource/open-sans/400.css';
+import '@fontsource/baloo-2/600.css';
 
 import { useStoreRehydrated } from 'easy-peasy';
 import { Route } from 'react-router-dom';

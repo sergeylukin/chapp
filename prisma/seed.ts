@@ -35,6 +35,31 @@ async function main() {
       await prisma.room.create({ data: room });
     }
   }
+
+  /// ---- Messages ------
+  const messagesCount = await prisma.message.count();
+  if (messagesCount === 0) {
+    for (let message of seeds.messages) {
+      message.createdAt = new Date(message.createdAt);
+      console.log(message.createdAt);
+      console.log(`inserting message with body ${message.body}`);
+      await prisma.message.create({ data: message });
+    }
+  }
+
+  /// set messages sent before 2022-05-28 as "visually broken"
+  const messages = await prisma.message.updateMany({
+    where: {
+      isVisuallyBroken: null,
+      createdAt: {
+        lt: new Date('2022-05-28'),
+      },
+    },
+    data: {
+      isVisuallyBroken: true,
+    },
+  });
+  console.log('Update messages', messages);
 }
 
 main()

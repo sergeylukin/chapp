@@ -37,4 +37,5 @@ model Message {
   userId         Int
   room           Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId         Int
+  isVisuallyBroken Boolean?
 }

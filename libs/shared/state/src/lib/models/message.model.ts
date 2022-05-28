@@ -16,6 +16,7 @@ interface IMessageModelActions {
 
 interface IMessageModelThunks {
   sendMessageThunk: Thunk<this, string, Injections, IStoreModel>;
+  fixMessagePositioning: Thunk<this, IMessage, Injections, IStoreModel>;
 }
 
 export interface IMessageModel
@@ -45,21 +46,44 @@ export const messageModel: IMessageModel = {
       const user = getStoreState().userModel.user;
       const room = getStoreState().roomModel.room;
       const message = {
+        id: null,
         body: msg as string,
         userId: user.id,
         roomId: room.id,
+        isVisuallyBroken: false,
       };
-      actions.setMessage(message);
       try {
         const response = await DataService.sendMessage(message);
-        // getStoreActions().messagesModel.addMessage(message);
+        if (msg === '/reset')
+          getStoreActions().messagesModel.loadMessagesThunk();
+        const newMessage = response;
+        actions.setMessage(newMessage);
         getStoreActions().messagesModel.setMessages([
           ...getStoreState().messagesModel.messages,
           {
-            ...message,
+            ...newMessage,
             user,
           },
         ]);
+      } catch (e) {
+        // failed, retry?
+      }
+    }
+  ),
+  fixMessagePositioning: thunk(
+    async (actions, msg, { injections, getStoreState, getStoreActions }) => {
+      const { DataService } = injections;
+      try {
+        const response = await DataService.updateMessage(msg.id, {
+          body: msg.body,
+          isVisuallyBroken: false,
+        });
+        console.log('YAAY', response);
+        getStoreActions().messagesModel.setMessages(
+          getStoreState().messagesModel.messages.map((message) =>
+            message.id === msg.id ? { ...message, ...response } : message
+          )
+        );
       } catch (e) {
         // failed, retry?
       }
