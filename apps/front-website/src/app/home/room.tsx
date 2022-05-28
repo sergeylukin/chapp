@@ -10,7 +10,7 @@ const Room = () => {
   const { room } = useStoreState((store) => store['roomModel']);
 
   const { user } = useStoreState((store) => store['userModel']);
-  const { messages, bubbles } = useStoreState(
+  const { prevMessages, messages, bubbles } = useStoreState(
     (store) => store['messagesModel']
   );
   const { leaveRoomThunk } = useStoreActions((actions) => actions['userModel']);
@@ -21,21 +21,36 @@ const Room = () => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (messagesContainerRef.current)
+    if (
+      messagesContainerRef.current &&
+      prevMessages.length &&
+      messages.length &&
+      prevMessages[prevMessages.length - 1].body !==
+        messages[messages.length - 1].body
+    )
       messagesContainerRef.current.scroll({
         top: messagesContainerRef.current.scrollHeight,
         behavior: 'smooth',
       });
-  }, [messages]);
+  }, [prevMessages, messages]);
 
   useEffect(() => {
     loadMessagesThunk();
     const timer = setInterval(() => {
       loadMessagesThunk();
     }, 6500);
+
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scroll({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+
     return () => {
       clearInterval(timer);
     };
+
     // eslint-disable-next-line
   }, []);
 

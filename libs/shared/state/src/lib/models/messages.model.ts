@@ -10,6 +10,7 @@ type bubble = {
   delay: number;
 };
 type IMessagesModelState = {
+  prevMessages: MessageWithUser[];
   messages: MessageWithUser[];
   bubbles: bubble[];
 };
@@ -31,8 +32,10 @@ export interface IMessagesModel
 export const messagesModel: IMessagesModel = {
   bubbles: [],
   messages: [],
+  prevMessages: [],
   // ACTIONS
   setMessages: action((state, payload) => {
+    state.prevMessages = [...state.messages];
     state.messages = payload;
     state.bubbles = payload.map((item) => ({
       message: '',
@@ -98,9 +101,7 @@ export const messagesModel: IMessagesModel = {
       const messages = await DataService.fetchMessages(
         getStoreState().roomModel.room.id
       );
-      if (messages.length !== getState().messages.length) {
-        actions.setMessages(messages);
-      }
+      actions.setMessages(messages);
       actions.toggleBubbles();
     }
   ),
