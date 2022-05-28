@@ -1,15 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useRef, useEffect } from 'react';
 import { Flex, HStack, Button, Text, VStack, Box } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import { gradientAnimationName } from '@chapp/front-website/theme';
 import { useStoreState, useStoreActions } from '@chapp/shared-state';
-import { MessageCard } from '@chapp/shared-ui';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import MessageForm from './messageform';
+import { MessageForm, MessageCard } from '@chapp/shared-ui';
 
 const Room = () => {
   const { room } = useStoreState((store) => store['roomModel']);
@@ -21,7 +16,7 @@ const Room = () => {
     (actions) => actions['messagesModel']
   );
 
-  const messagesContainerRef = useRef();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (messagesContainerRef.current)
