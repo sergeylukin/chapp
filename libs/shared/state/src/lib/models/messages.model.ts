@@ -93,12 +93,14 @@ export const messagesModel: IMessagesModel = {
   }),
   // THUNKS
   loadMessagesThunk: thunk(
-    async (actions, payload, { injections, getStoreState }) => {
+    async (actions, payload, { injections, getState, getStoreState }) => {
       const { DataService } = injections;
       const messages = await DataService.fetchMessages(
         getStoreState().roomModel.room.id
       );
-      actions.setMessages(messages);
+      if (messages.length !== getState().messages.length) {
+        actions.setMessages(messages);
+      }
       actions.toggleBubbles();
     }
   ),

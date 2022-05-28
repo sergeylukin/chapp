@@ -20,13 +20,13 @@ const Room = () => {
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   if (messagesContainerRef.current)
-  //     messagesContainerRef.current.scroll({
-  //       top: messagesContainerRef.current.scrollHeight,
-  //       behavior: 'smooth',
-  //     });
-  // }, [messages]);
+  useEffect(() => {
+    if (messagesContainerRef.current)
+      messagesContainerRef.current.scroll({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+  }, [messages]);
 
   useEffect(() => {
     loadMessagesThunk();
