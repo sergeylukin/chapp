@@ -175,3 +175,9 @@ Because docker compose stack runs in it's own network and `.env` is configured
 with this setup in mind, running migration from host machine will not work.
 As a workaround, before running migration (i.e. `npm run prisma:migrate my_migration_name`) modify `.env` file by modifying `DB_HOST` to `localhost`
 and then rolling it back after the migration process is finished.
+
+### Installing NPM packages and docker-compose
+
+For some reason, restarting dev env (e.g. `docker-compose up --build`) is not enough.
+What currently works for me is `docker-compose rm -f` right before starting the
+`docker-compose`. Any insights on whys and hows are welcome.
