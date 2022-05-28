@@ -64,16 +64,6 @@ services:
           property: host
       - key: NX_API_PORT
         value:
-    routes:
-      - type: rewrite
-        source: /api/
-        destination: 'https://chapp-api.sergeylukin.com/api/'
-      - type: redirect
-        source: /api
-        destination: '/api/'
-      - type: rewrite
-        source: /api/*
-        destination: 'https://chapp-api.sergeylukin.com/api/*'
 databases:
   - name: chapp-db
     databaseName: chapp
