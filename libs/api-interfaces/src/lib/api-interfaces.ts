@@ -10,7 +10,11 @@ export interface Message extends BaseEntity {
   userId: number;
 }
 
-export type IMessage = Omit<MessageModel, 'createdAt' | 'updatedAt' | 'id'>;
+export type IMessage = Omit<MessageModel, 'createdAt' | 'updatedAt'>;
+export type IDraftMessage = Omit<
+  MessageModel,
+  'createdAt' | 'updatedAt' | 'id'
+>;
 
 export interface User extends BaseEntity {
   username?: string;

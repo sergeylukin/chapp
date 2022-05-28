@@ -4,7 +4,7 @@ import { LoginForm } from './login-form';
 
 export default {
   component: LoginForm,
-  title: 'LoginForm',
+  title: 'Molecules/LoginForm',
   argTypes: {},
   args: {},
   parameters: {},
@@ -12,10 +12,9 @@ export default {
 
 const Template: Story = (args) => <LoginForm {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   onSubmit: (values, { resetForm, setSubmitting }) => {
-    console.log('got values and submitted', values);
     setTimeout(() => {
       resetForm();
       setSubmitting(false);

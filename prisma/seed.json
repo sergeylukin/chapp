@@ -4,5 +4,16 @@
   }],
   "rooms": [{
     "name": "default"
+  }],
+  "messages": [{
+    "roomId": 1,
+    "userId": 1,
+    "body": "message with misaligned avatar",
+    "createdAt": "2022-05-27 11:33:20.298"
+  }, {
+    "roomId": 1,
+    "userId": 1,
+    "body": "message with fixed avatar",
+    "createdAt": "2022-05-28 11:33:20.298"
   }]
 }

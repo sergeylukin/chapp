@@ -1,4 +1,7 @@
 import React from 'react';
+import '@fontsource/festive/400.css';
+import '@fontsource/open-sans/400.css';
+import '@fontsource/baloo-2/600.css';
 // import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 

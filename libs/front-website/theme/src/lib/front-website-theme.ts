@@ -2,6 +2,44 @@
 import { keyframes } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 
+const dylanAnimationKeyframesName = keyframes`
+  50% {
+    transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
+`;
+
+const fixedAnimationKeyframesName = keyframes`
+0% {
+  transform: rotate(0) scale(1);
+  opacity: 1;
+}
+40% {
+  transform: rotate(360deg);
+}
+
+50% {
+  opacity: 0;
+}
+70% {
+  transform: rotate(360deg) scale(1.3);
+}
+80% {
+  opacity: 1;
+}
+100% {
+  transform: rotate(360deg) scale(1);
+}
+`;
+
 const slideUpAnimationKeyframesName = keyframes`
   from {
     opacity: 0;
@@ -11,6 +49,17 @@ const slideUpAnimationKeyframesName = keyframes`
     opacity: 1;
     transform: none;
   }
+`;
+
+export const jumpAnimationKeyframesName = keyframes`
+	0% {
+		transform: scale(1);
+		box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+	100% {
+		transform: scale(1.05);
+		box-shadow: 0 4px 20px rgba(0,0,0,.1);
+	}
 `;
 
 export const slideDownAnimationKeyframesName = keyframes`
@@ -192,6 +241,29 @@ export const frontWebsiteTheme = extendTheme({
       },
       '.u-anim-slideDown': {
         animation: `${slideDownAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
+      },
+      '.u-anim-jump': {
+        animation: `.4s ${jumpAnimationKeyframesName} ease infinite alternate`,
+      },
+
+      '.u-fixed-message': {
+        animation: `${fixedAnimationKeyframesName} .7s linear forwards`,
+      },
+      '.u-fixed-message::before, .u-to-be-fixed::before': {
+        content: '""',
+        backgroundColor: 'aliceblue',
+        borderRadius: '50%',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        transform: 'scale(0.001, 0.001)',
+      },
+      '.u-fixed-message::before': {
+        animation: `${dylanAnimationKeyframesName} 0.8s ease-out`,
+        animationDelay: '.4s',
       },
 
       '.u-shadow': {

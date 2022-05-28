@@ -1,12 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { MessageForm } from './message-form';
+import { SpeechBubble, SpeechBubbleProps } from './speech-bubble';
 
 export default {
-  component: MessageForm,
-  title: 'Molecules/MessageForm',
+  component: SpeechBubble,
+  title: 'Molecules/SpeechBubble',
   argTypes: {},
-  args: {},
+  args: {
+    message: 'Pls fix me!',
+  },
   parameters: {
     backgrounds: {
       default: 'chapp',
@@ -14,7 +16,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => <MessageForm {...args} />;
+const Template: Story<SpeechBubbleProps> = (args) => <SpeechBubble {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

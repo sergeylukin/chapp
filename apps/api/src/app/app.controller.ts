@@ -103,6 +103,9 @@ export class AppController {
         include: {
           user: true,
         },
+        orderBy: {
+          id: 'asc',
+        },
       });
   }
 
@@ -125,6 +128,9 @@ export class AppController {
     }
   ): Promise<MessageModel> {
     const { body, userId } = messageData;
+    if (body === '/reset') {
+      await this.dataService.resetFixedMessages();
+    }
     return this.dataService.message.create({
       data: {
         body,
@@ -193,6 +199,7 @@ export class AppController {
     @Body()
     messageData: {
       body: string;
+      isVisuallyBroken: boolean;
     }
   ): Promise<MessageModel> {
     return this.dataService.message.update({
