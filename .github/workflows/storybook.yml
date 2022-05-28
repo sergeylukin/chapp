@@ -16,7 +16,7 @@ jobs:
 
       - run: npx nx workspace-lint
       # - run: npx nx format:check
-      - run: npx nx affected --target=build-storybook --parallel=3
+      - run: NX_API_HOST=chapp-api npx nx affected --target=build-storybook --parallel=3
 
         # ( Build to ./dist or other directory... )
 

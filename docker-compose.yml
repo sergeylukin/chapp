@@ -19,6 +19,7 @@ services:
     command: ["./scripts/wait-for-it.sh", "${DB_HOST}:${DB_PORT}", "--", "./apps/api/entrypoint.sh"]
     environment:
       NODE_ENV: "development"
+      NX_APP_HOST: "localhost"
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
@@ -41,6 +42,9 @@ services:
       context: ./
       target: builder
       dockerfile: ./apps/front-website/Dockerfile
+    environment:
+      NODE_ENV: "development"
+      NX_API_HOST: "localhost"
     volumes:
       *chapp-volumes
     ports:

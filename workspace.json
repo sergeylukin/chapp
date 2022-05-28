@@ -6,6 +6,7 @@
     "front-website": "apps/front-website",
     "front-website-e2e": "apps/front-website-e2e",
     "front-website-theme": "libs/front-website/theme",
+    "shared-config": "libs/shared/config",
     "shared-data": "libs/shared/data",
     "shared-state": "libs/shared/state",
     "shared-ui": "libs/shared/ui"

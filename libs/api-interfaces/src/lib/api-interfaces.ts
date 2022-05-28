@@ -29,7 +29,3 @@ export type IUser = Omit<UserModel, 'createdAt' | 'updatedAt' | 'id'>;
 export interface MessageWithUser extends IMessage {
   user: IUser;
 }
-
-const API_HOST = process.env['API_HOST'];
-const API_PORT = process.env['API_PORT'] ? `:${process.env['API_PORT']}` : '';
-export const FEED_API_URL = `https://${API_HOST}${API_PORT}/api/`;

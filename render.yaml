@@ -14,6 +14,11 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NX_APP_HOST
+        fromService:
+          type: web
+          name: chapp-app
+          property: host
       - key: API_HOST
         value: 0.0.0.0
       - key: DB_HOST
@@ -52,16 +57,13 @@ services:
         value: 14.5.0
       - key: NODE_ENV
         value: production
-      - key: API_HOST
+      - key: NX_API_HOST
         fromService:
           type: web
           name: chapp-api
           property: host
-      - key: API_PORT
-        fromService:
-          type: web
-          name: chapp-api
-          property: port
+      - key: NX_API_PORT
+        value:
     routes:
       - type: rewrite
         source: /api/
