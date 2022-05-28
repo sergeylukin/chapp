@@ -2,6 +2,9 @@ import React from 'react';
 // import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 
+import { StoreProvider } from 'easy-peasy';
+import { store } from '@chapp/shared-state';
+
 import { frontWebsiteTheme } from '../libs/front-website/theme/src';
 
 export const globalTypes = {
@@ -33,7 +36,22 @@ const withChakra = (StoryFn, context) => {
   );
 };
 
-export const decorators = [withChakra];
+const withEasyPeasy = (StoryFn) => {
+  /* const { direction } = context.globals; */
+  // const dir = direction.toLowerCase();
+
+  // React.useEffect(() => {
+  //   document.documentElement.dir = dir;
+  // }, [dir]);
+
+  return (
+    <StoreProvider store={store}>
+      <StoryFn />
+    </StoreProvider>
+  );
+};
+
+export const decorators = [withChakra, withEasyPeasy];
 
 export const parameters = {
   chakra: {

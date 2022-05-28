@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useEffect, useRef } from 'react';
 import {
   Box,
@@ -18,11 +16,11 @@ const schema = Yup.object().shape({
   msg: Yup.string().required('No empty messages, sorry'),
 });
 
-const MessageForm = () => {
+export function MessageForm() {
   const { sendMessageThunk } = useStoreActions(
     (actions) => actions['messageModel']
   );
-  const messageInputRef = useRef();
+  const messageInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (messageInputRef.current) messageInputRef.current.focus();
     // eslint-disable-next-line
@@ -51,7 +49,9 @@ const MessageForm = () => {
           .catch((err) => {
             setSubmitting(false);
             setStatus('error');
-            const errors = {};
+            const errors: {
+              [key: string]: string;
+            } = {};
             Object.keys(values).forEach((key, idx) => {
               if (err && err.errors && err.errors[idx]) {
                 errors[key] = err.errors[idx];
@@ -67,8 +67,16 @@ const MessageForm = () => {
           <Box className="ui-form u-shadow" p={2}>
             <HStack w="100%" spacing={3} alignItems="start">
               <Field type="msg" name="msg">
-                {({ field, form }) => (
-                  <FormControl isInvalid={form.errors.msg && form.touched.msg}>
+                {({
+                  field,
+                  form,
+                }: {
+                  field: string;
+                  form: { touched: { msg: string }; errors: { msg: string } };
+                }) => (
+                  <FormControl
+                    isInvalid={!!(form.errors.msg && form.touched.msg)}
+                  >
                     <Input
                       {...field}
                       variant="login"
@@ -97,6 +105,6 @@ const MessageForm = () => {
       )}
     </Formik>
   );
-};
+}
 
 export default MessageForm;
