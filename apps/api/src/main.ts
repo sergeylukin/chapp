@@ -21,13 +21,17 @@ const configureSwagger = (app) => {
 
 async function bootstrap() {
   const APP_HOST = process.env.NX_APP_HOST;
+  const ENV = process.env.NODE_ENV;
+  const HTTP_SCHEMA = ENV === 'production' ? 'https://' : 'http://';
   const REFERER_HOST =
-    APP_HOST === 'chapp-app'
-      ? 'chapp.sergeylukin.com'
-      : `${APP_HOST}.onrender.com`;
+    ENV === 'production'
+      ? APP_HOST === 'chapp-app'
+        ? 'chapp.sergeylukin.com'
+        : `${APP_HOST}.onrender.com`
+      : APP_HOST;
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: `https://${REFERER_HOST}`,
+      origin: `${HTTP_SCHEMA}${REFERER_HOST}`,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,

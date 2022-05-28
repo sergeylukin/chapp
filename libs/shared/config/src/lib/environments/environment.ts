@@ -13,7 +13,9 @@ const API_BASEHOST =
       : `${API_HOST}.onrender.com`
     : API_HOST;
 
+const API_SCHEMA = ENV === 'development' ? 'http://' : 'https://';
+
 export const environment = {
   production: process.env['NODE_ENV'] === 'production',
-  API_BASEURL: `//${API_BASEHOST}${API_PORT}/`,
+  API_BASEURL: `${API_SCHEMA}${API_BASEHOST}${API_PORT}/`,
 };

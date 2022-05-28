@@ -40,7 +40,6 @@ export class AppController {
     @Query('searchString') searchString?: string,
     @Query('orderBy') orderBy?: 'asc' | 'desc'
   ): Promise<MessageWithUser[]> {
-    // @ts-ignore
     const or = searchString
       ? {
           OR: [
@@ -62,9 +61,11 @@ export class AppController {
         }
       : {};
 
+    // eslint-disable-next-line
     // @ts-ignore
     return this.dataService.message.findMany({
       include: { user: true },
+      // eslint-disable-next-line
       // @ts-ignore
       where: or,
       take: Number(take) || undefined,
