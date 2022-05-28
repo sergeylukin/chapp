@@ -10,4 +10,5 @@ export const store = createStore(persist(model), {
   injections: {
     DataService,
   },
+  version: 1,
 });
