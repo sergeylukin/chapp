@@ -29,5 +29,3 @@ export type IUser = Omit<UserModel, 'createdAt' | 'updatedAt' | 'id'>;
 export interface MessageWithUser extends IMessage {
   user: IUser;
 }
-
-export const FEED_API_URL = '/api/';
