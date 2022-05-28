@@ -17,10 +17,10 @@
     "paths": {
       "@chapp/api-interfaces": ["libs/api-interfaces/src/index.ts"],
       "@chapp/front-website/theme": ["libs/front-website/theme/src/index.ts"],
+      "@chapp/shared-config": ["libs/shared/config/src/index.ts"],
       "@chapp/shared-data": ["libs/shared/data/src/index.ts"],
       "@chapp/shared-state": ["libs/shared/state/src/index.ts"],
-      "@chapp/shared-ui": ["libs/shared/ui/src/index.ts"],
-      "@chapp/shared-config": ["libs/shared/config/src/index.ts"]
+      "@chapp/shared-ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

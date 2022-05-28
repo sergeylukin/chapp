@@ -70,7 +70,7 @@ const Input = {
         border: '2px solid var(--color)',
         borderRadius: '0.25rem',
         outline: 'none',
-        transition: 'inherit',
+        transition: 'border-color 1000ms linear',
       },
     },
   },
@@ -138,7 +138,7 @@ const Button = {
       borderRadius: '0.25rem',
       height: 'var(--input-height)',
       backgroundColor: 'var(--color)',
-      transition: 'inherit',
+      transition: 'background-color 1000ms linear',
     },
     logout: {
       mt: 0,
@@ -151,7 +151,6 @@ const Button = {
       fontWeight: 'bold',
       borderRadius: '0.25rem',
       height: 'var(--input-height)',
-      backgroundColor: 'var(--color)',
       transition: 'inherit',
     },
   },
@@ -178,14 +177,18 @@ export const frontWebsiteTheme = extendTheme({
   styles: {
     global: {
       ':root': {
+        '--color': '#ffd708',
         '--color-red': '#d3d',
-        '--color-gray': '#fc6',
+        '--color-gray': '#ffd708',
         '--color-blue': '#ffb521',
         '--color-green': '#66db69',
         '--input-height': '3rem',
         '--transition-duration': '0.3s',
         '--transition-easing': 'cubic-bezier(0.5, 0, 0.5, 1)',
         '--animation-duration': '0.8s',
+      },
+      '.u-anim-slideUp': {
+        animation: `${slideDownAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
       },
       '.u-anim-slideDown': {
         animation: `${slideDownAnimationKeyframesName} calc(var(--animation-duration) / 2) cubic-bezier(0.5, 0, 0.5, 1) both`,
@@ -202,10 +205,10 @@ export const frontWebsiteTheme = extendTheme({
         transition: 'all var(--transition-duration) var(--transition-easing)',
         willChange: 'transform',
 
-        '--color': 'var(--color-gray)',
+        // '--color': 'var(--color-gray)',
       },
       '.ui-form:focus-within': {
-        '--color': 'var(--color-blue)',
+        // '--color': 'var(--color-blue)',
       },
 
       "ui-form[data-state='subscribe']": {

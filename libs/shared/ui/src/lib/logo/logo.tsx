@@ -3,9 +3,19 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import Snap from 'snapsvg-cjs';
 
-const Logo = forwardRef(({ title = '' }, ref) => {
+export interface ILogoAnimation {
+  playCloseAnimation: () => void;
+}
+//
+interface IMaskObj {
+  maskAnim: () => void;
+  init: () => void;
+  reset: () => void;
+}
+
+export const Logo = forwardRef(({ title = '' }, ref) => {
   const containerRef = useRef();
-  const maskObjRef = useRef();
+  const maskObjRef = useRef<IMaskObj>(null);
   useEffect(() => {
     const s = Snap(containerRef.current);
     const sMaxX = 800;
@@ -257,53 +267,55 @@ const Logo = forwardRef(({ title = '' }, ref) => {
 
     // ------------------------------------
 
-    const maskObjInit = function () {
-      let maskShape;
+    class maskObjInit {
+      maskShape: any;
 
-      let currentStep = 0;
-      const steps = [
+      currentStep = 0;
+      steps: any = [
         { rx: '10%', ry: '10%' },
         { rx: '35%', ry: '35%' },
         { rx: '0%', ry: '0%' },
       ];
 
-      this.init = function () {
-        maskShape = s.ellipse('50%', '50%', '100%', '100%');
+      init(): void {
+        this.maskShape = s.ellipse('50%', '50%', '100%', '100%');
 
-        maskShape.attr({
+        this.maskShape.attr({
           fill: 'white',
         });
 
-        maskElem.add(maskShape);
+        maskElem.add(this.maskShape);
 
         gText.attr({
           mask: maskElem,
         });
-      };
+      }
 
-      this.maskAnim = function () {
-        //         console.log('- * - anim mask');
-
-        if (currentStep == steps.length) {
+      maskAnim(): void {
+        if (this.currentStep == this.steps.length) {
           // setTimeout(reRun, 1000);
           return;
         }
 
-        maskShape.animate(steps[currentStep], 300, maskObjRef.current.maskAnim);
-        currentStep++;
-      };
+        this.maskShape.animate(
+          this.steps[this.currentStep],
+          300,
+          maskObjRef.current.maskAnim.bind(this)
+        );
+        this.currentStep++;
+      }
 
-      this.reset = function () {
-        currentStep = 0;
+      reset(): void {
+        this.currentStep = 0;
 
         const initState = {
           rx: '100%',
           ry: '100%',
         };
 
-        maskShape.attr(initState);
-      };
-    };
+        this.maskShape.attr(initState);
+      }
+    }
 
     function createMask() {
       //     console.log('* - createMask');
@@ -323,12 +335,15 @@ const Logo = forwardRef(({ title = '' }, ref) => {
     }
   }, [containerRef]);
 
-  useImperativeHandle(ref, () => ({
-    playCloseAnimation() {
-      maskObjRef.current.maskAnim();
-      console.log(maskObjRef.current);
-    },
-  }));
+  useImperativeHandle(
+    ref,
+    (): ILogoAnimation => ({
+      playCloseAnimation() {
+        maskObjRef.current?.maskAnim();
+        console.log(maskObjRef.current);
+      },
+    })
+  );
 
   return (
     <svg

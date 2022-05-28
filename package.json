@@ -31,6 +31,7 @@
     "@nestjs/platform-express": "8.4.1",
     "@nestjs/swagger": "5.2.1",
     "@prisma/client": "3.13.0",
+    "@types/snapsvg": "^0.5.1",
     "axios": "0.26.1",
     "core-js": "3.21.1",
     "debounce": "^1.2.1",
