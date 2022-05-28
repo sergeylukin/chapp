@@ -14,11 +14,7 @@ export interface IDataService {
   findUsernameOrCreate: (username: string) => Promise<UserModel>;
   sendMessage: (message: IMessage) => Promise<MessageModel>;
   fetchMessages: (roomId: number) => Promise<MessageWithUser[]>;
-}
-
-interface User {
-  id: number;
-  name: string;
+  fetchRooms: () => Promise<RoomModel[]>;
 }
 
 export const DataService: IDataService = {
@@ -76,4 +72,6 @@ export const DataService: IDataService = {
     await axios
       .get(`${FEED_API_URL}room/${roomId}/messages`)
       .then((response) => response.data),
+  fetchRooms: async () =>
+    await axios.get(`${FEED_API_URL}rooms`).then((response) => response.data),
 };

@@ -23,9 +23,9 @@ export const roomsModel: IRoomsModel = {
     state.rooms = rooms;
   }),
   // Thunks
-  fetch: thunk(async (actions) => {
-    const response = await fetch('/api/rooms');
-    const rooms = await response.json();
+  fetch: thunk(async (actions, payload, { injections }) => {
+    const { DataService } = injections;
+    const rooms = await DataService.fetchRooms();
     actions.fetched(rooms);
   }),
 };

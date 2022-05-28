@@ -30,4 +30,6 @@ export interface MessageWithUser extends IMessage {
   user: IUser;
 }
 
-export const FEED_API_URL = '/api/';
+const API_HOST = process.env['API_HOST'];
+const API_PORT = process.env['API_PORT'] ? `:${process.env['API_PORT']}` : '';
+export const FEED_API_URL = `https://${API_HOST}${API_PORT}/api/`;
