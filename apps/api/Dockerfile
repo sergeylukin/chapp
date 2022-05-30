@@ -10,6 +10,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run prisma:generate
+
 RUN npm run build:api
 
 RUN $(npm bin)/tsc prisma/seed.ts; exit 0
