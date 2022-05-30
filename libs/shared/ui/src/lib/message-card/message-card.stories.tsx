@@ -5,6 +5,7 @@ import {
   SpeechBubble,
   SpeechBubbleProps,
 } from '../speech-bubble/speech-bubble';
+import avatarSVG from './avatar.example.svg';
 
 export default {
   component: MessageCard,
@@ -17,6 +18,7 @@ export default {
       roomId: 3,
       user: {
         name: 'silvia',
+        avatar: avatarSVG,
       },
     },
   },
