@@ -9,8 +9,12 @@ import {
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
+export interface ILoginFormValues {
+  username: string;
+}
+
 interface LoginFormProps {
-  onSubmit: (values: any, form: any) => void;
+  onSubmit: (values: ILoginFormValues) => void;
 }
 
 export const LoginForm = ({ onSubmit }: LoginFormProps) => {
@@ -53,10 +57,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
   return (
     <Formik
       initialValues={{ username: '' }}
-      onSubmit={(
-        values,
-        { resetForm, setErrors, setStatus, setSubmitting }
-      ) => {
+      onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
         setSubmitting(true);
         setStatus('subscribing');
         schema
@@ -66,7 +67,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
           })
           .then(() => {
             setStatus('success');
-            onSubmit(values, { setSubmitting, resetForm });
+            onSubmit(values);
           })
           .catch((err) => {
             setStatus('error');
