@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { Flex, HStack, Button, Text, VStack, Box } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
@@ -40,12 +40,14 @@ const Room = () => {
       loadMessagesThunk();
     }, 6500);
 
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scroll({
-        top: messagesContainerRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scroll({
+          top: messagesContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }, 1000);
 
     return () => {
       clearInterval(timer);
