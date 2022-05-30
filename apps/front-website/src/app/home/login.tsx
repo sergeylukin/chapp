@@ -30,7 +30,10 @@ const Login = () => {
   const onLoginFormSubmit = (values: ILoginFormValues) => {
     setTimeout(() => {
       setUsername(values.username);
-      logoRef?.current?.playCloseAnimation();
+      console.log(logoRef);
+      if (logoRef?.current?.playCloseAnimation) {
+        logoRef.current?.playCloseAnimation();
+      }
       setTimeout(() => {
         joinRoomThunk(rooms[0]);
       }, 800);
