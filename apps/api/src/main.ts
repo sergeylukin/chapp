@@ -21,6 +21,7 @@ const configureSwagger = (app) => {
 
 async function bootstrap() {
   const APP_HOST = process.env.NX_APP_HOST;
+
   const ENV = process.env.NODE_ENV;
   const HTTP_SCHEMA = ENV === 'production' ? 'https://' : 'http://';
   const REFERER_HOST =
