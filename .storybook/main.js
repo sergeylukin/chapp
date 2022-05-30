@@ -1,14 +1,14 @@
 const path = require('path');
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 const toPath = (_path) => path.join(process.cwd(), _path);
 
-const injectVars = Object.keys(process.env).reduce((c,key) => {
-  if(/^NX_/.test(key)) {
+const injectVars = Object.keys(process.env).reduce((c, key) => {
+  if (/^NX_/.test(key)) {
     c[`process.env.${key}`] = JSON.stringify(process.env[key]);
   }
   return c;
-}, {})
+}, {});
 
 function injectEnv(definitions) {
   const env = 'process.env';
@@ -20,8 +20,11 @@ function injectEnv(definitions) {
         Object.fromEntries(
           Object.entries(definitions)
             .filter(([key]) => key.startsWith(env))
-            .map(([key, value]) => [key.substring(env.length + 1), JSON.parse(value)]),
-        ),
+            .map(([key, value]) => [
+              key.substring(env.length + 1),
+              JSON.parse(value),
+            ])
+        )
       ),
     };
   }
@@ -38,6 +41,7 @@ module.exports = {
     return {
       ...options,
       presets: [...options.presets, '@babel/preset-react'],
+      plugins: [...options.plugins, 'babel-plugin-inline-svg'],
     };
   },
   // uncomment the property below if you want to apply some webpack config globally
@@ -114,12 +118,12 @@ module.exports = {
         '@emotion/styled': toPath('node_modules/@emotion/styled'),
         'emotion-theming': toPath('node_modules/@emotion/react'),
       },
-    }
+    };
 
     config.stats = 'verbose';
 
     config.plugins = config.plugins.reduce((c, plugin) => {
-      if(plugin instanceof webpack.DefinePlugin) {
+      if (plugin instanceof webpack.DefinePlugin) {
         return [
           ...c,
           new webpack.DefinePlugin(
@@ -128,15 +132,11 @@ module.exports = {
               ...injectVars,
             })
           ),
-        ]
+        ];
       }
 
-      return [
-        ...c,
-        plugin,
-      ]
+      return [...c, plugin];
     }, []);
-
 
     // Return the altered config
     return config;

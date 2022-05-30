@@ -18,6 +18,7 @@ model User {
   name             String   @db.VarChar(255)
   messages         Message[]
   rooms            Room[]
+  avatar           String?  @db.Text
 }
 
 model Room {

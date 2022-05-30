@@ -14,6 +14,8 @@ import {
   Room as RoomModel,
   Message as MessageModel,
 } from '@prisma/client';
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/adventurer';
 
 import { PrismaService } from './prisma.service';
 
@@ -223,9 +225,11 @@ export class AppController {
       },
     });
     if (!user) {
+      const avatar = createAvatar(style, { seed: userData.name });
       return await this.dataService.user.create({
         data: {
           name: userData.name,
+          avatar,
         },
       });
     }
