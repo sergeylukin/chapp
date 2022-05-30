@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useRef, useImperativeHandle } from 'react';
 import Snap from 'snapsvg-cjs';
 
 export interface ILogoAnimation {
@@ -13,7 +13,7 @@ interface IMaskObj {
   reset: () => void;
 }
 
-export const Logo = forwardRef(({ title = '' }, ref) => {
+export const Logo = ({ title = '', ref }) => {
   const containerRef = useRef();
   const maskObjRef = useRef<IMaskObj>(null);
   useEffect(() => {
@@ -361,6 +361,6 @@ export const Logo = forwardRef(({ title = '' }, ref) => {
     />
   );
   //  return <div />;
-});
+};
 
 export default Logo;

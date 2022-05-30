@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { useRef, useEffect } from 'react';
 import {
   Box,
@@ -8,7 +6,12 @@ import {
 } from '@chakra-ui/react';
 
 import { useStoreActions, useStoreState } from '@chapp/shared-state';
-import { Logo, LoginForm } from '@chapp/shared-ui';
+import {
+  ILoginFormValues,
+  ILogoAnimation,
+  Logo,
+  LoginForm,
+} from '@chapp/shared-ui';
 
 const Login = () => {
   const { rooms } = useStoreState((store) => store['roomsModel']);
@@ -22,12 +25,12 @@ const Login = () => {
     // eslint-disable-next-line
   }, []);
 
-  const logoRef = useRef();
+  const logoRef = useRef<ILogoAnimation>(null);
 
-  const onLoginFormSubmit = (values) => {
+  const onLoginFormSubmit = (values: ILoginFormValues) => {
     setTimeout(() => {
       setUsername(values.username);
-      logoRef.current.playCloseAnimation();
+      logoRef?.current?.playCloseAnimation();
       setTimeout(() => {
         joinRoomThunk(rooms[0]);
       }, 800);
@@ -53,7 +56,7 @@ const Login = () => {
           <Logo title="Chapp" ref={logoRef} />;
         </Flex>
         <Flex className="u-anim-slideUp" maxW={500}>
-          <LoginForm onSubmit={onLoginFormSubmit} logoRef={logoRef} />
+          <LoginForm onSubmit={onLoginFormSubmit} />
         </Flex>
       </Flex>
     </Box>
