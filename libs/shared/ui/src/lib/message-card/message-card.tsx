@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { MessageWithUser } from '@chapp/api-interfaces';
 import { Box, Flex, Text, Avatar } from '@chakra-ui/react';
 import { useStoreActions } from '@chapp/shared-state';
+import { Buffer } from 'buffer/';
 
 /* eslint-disable-next-line */
 export interface MessageCardProps {
@@ -17,6 +18,11 @@ export function MessageCard({
   const { fixMessagePositioning } = useStoreActions(
     (actions) => actions['messageModel']
   );
+
+  const avatarBase64 = Buffer.from(message.user.avatar as string).toString(
+    'base64'
+  );
+  const avatarImageURL = `data:image/svg+xml;base64,${avatarBase64}`;
 
   return (
     <Flex w="100%">
@@ -41,11 +47,7 @@ export function MessageCard({
       >
         <Avatar
           name="Computer"
-          src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
-          bg="blue.300"
-          borderWidth="2px"
-          borderStyle="solid"
-          borderColor={needsVisualRepairment ? 'red.500' : 'green.100'}
+          src={avatarImageURL}
           className={needsVisualRepairment ? 'u-anim-jump' : ''}
           mt={needsVisualRepairment ? 1 : 2}
         ></Avatar>

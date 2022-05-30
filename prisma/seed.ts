@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 const seeds = require('./seed.json');
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/adventurer';
 
 const prisma = new PrismaClient({
   datasources: {
@@ -60,6 +62,22 @@ async function main() {
     },
   });
   console.log('Update messages', messages);
+
+  // Fill in avatar for users created before avatars were introduced
+  const users = await prisma.user.findMany();
+  for (let user of users) {
+    if (user.avatar) continue;
+    const username = user.name;
+    let avatar = createAvatar(style, {
+      seed: username,
+    });
+
+    const avatarUpdate = await prisma.user.update({
+      where: { id: user.id },
+      data: { avatar },
+    });
+    console.log(`Created avatar for ${user.name}`, avatarUpdate);
+  }
 }
 
 main()
