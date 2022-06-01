@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import Linkify from 'react-linkify';
 import { MessageWithUser } from '@chapp/api-interfaces';
-import { Box, Flex, Text, Avatar } from '@chakra-ui/react';
+import { Link, Box, Flex, Text, Avatar } from '@chakra-ui/react';
 import { useStoreActions } from '@chapp/shared-state';
 import { Buffer } from 'buffer/';
 
 /* eslint-disable-next-line */
 export interface MessageCardProps {
   message: MessageWithUser;
-  needsVisualRepairment: boolean | null;
+  needsVisualRepairment?: boolean | null;
 }
 
 export function MessageCard({
@@ -63,7 +64,23 @@ export function MessageCard({
         borderRadius={5}
         position="relative"
       >
-        <Text>{message.body}</Text>
+        <Text>
+          <Linkify
+            componentDecorator={(decoratedHref, decoratedText, key) => (
+              <Link
+                color="teal.500"
+                isExternal
+                href={decoratedHref}
+                key={key}
+                rel="noreferrer"
+              >
+                {decoratedText}
+              </Link>
+            )}
+          >
+            {message.body}
+          </Linkify>
+        </Text>
         <Text
           borderRadius={6}
           py={0}
