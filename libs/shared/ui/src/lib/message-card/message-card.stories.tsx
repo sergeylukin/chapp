@@ -1,10 +1,6 @@
-import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { MessageCard, MessageCardProps } from './message-card';
-import {
-  SpeechBubble,
-  SpeechBubbleProps,
-} from '../speech-bubble/speech-bubble';
+import { SpeechBubble } from '../speech-bubble/speech-bubble';
 import avatarSVG from './avatar.example.svg';
 
 export default {
@@ -37,7 +33,7 @@ Default.args = {};
 export const Broken = Template.bind({});
 Broken.args = { needsVisualRepairment: true };
 
-export const BrokenWithSpeechBubble = (args) => {
+export const BrokenWithSpeechBubble = (args: MessageCardProps) => {
   return (
     <div
       style={{
@@ -57,4 +53,12 @@ export const BrokenWithSpeechBubble = (args) => {
       </div>
     </div>
   );
+};
+
+export const WithLinks = (args: MessageCardProps) => {
+  const message = {
+    ...args.message,
+    body: 'Some text goes here and then there is a URL which should be clickable: https://sergeylukin.com/, now click it and it should open a new tab with the website sergeylukin[dot]com',
+  };
+  return <MessageCard message={message} />;
 };
