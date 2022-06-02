@@ -36,7 +36,6 @@ export function MessageCard({
         }}
         className={isFixed ? 'u-fixed-message' : 'u-to-be-fixed'}
         sx={{
-          ml: 2,
           cursor: needsVisualRepairment ? 'pointer' : '',
           '&:hover': needsVisualRepairment
             ? {
