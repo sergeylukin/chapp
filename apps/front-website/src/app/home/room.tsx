@@ -77,39 +77,44 @@ const Room = () => {
             Logout
           </Button>
         </HStack>
-        <Flex w="full" h="full" overflow="scroll" ref={messagesContainerRef}>
-          <ul>
-            {messages.map((message, index) => {
-              return (
+        <VStack
+          alignItems="start"
+          w="100%"
+          h="full"
+          overflowY="scroll"
+          overflowX="hidden"
+          ref={messagesContainerRef}
+        >
+          {messages.map((message, index) => {
+            return (
+              <Box
+                sx={{
+                  position: 'relative',
+                }}
+                key={index}
+              >
+                <MessageCard
+                  needsVisualRepairment={message.isVisuallyBroken}
+                  message={message}
+                />
                 <Box
                   sx={{
-                    position: 'relative',
+                    position: 'absolute',
+                    bottom: '120%',
+                    left: '20px',
                   }}
-                  key={index}
                 >
-                  <MessageCard
-                    needsVisualRepairment={message.isVisuallyBroken}
-                    message={message}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: '120%',
-                      left: '20px',
-                    }}
-                  >
-                    {bubbles[index].message && (
-                      <SpeechBubble
-                        message={bubbles[index].message}
-                        delay={bubbles[index].delay}
-                      />
-                    )}
-                  </Box>
+                  {bubbles[index].message && (
+                    <SpeechBubble
+                      message={bubbles[index].message}
+                      delay={bubbles[index].delay}
+                    />
+                  )}
                 </Box>
-              );
-            })}
-          </ul>
-        </Flex>
+              </Box>
+            );
+          })}
+        </VStack>
         <Flex w="full">
           <MessageForm />
         </Flex>
