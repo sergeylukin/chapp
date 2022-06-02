@@ -4,7 +4,7 @@
 
 API Swagger:
 
-https://chapp.sergeylukin.com/api/
+https://chapp-api.sergeylukin.com/api/
 
 LIVE demo (auto synced with `main` branch)
 
