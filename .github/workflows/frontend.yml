@@ -1,0 +1,46 @@
+name: Netlify Chapp Frontend
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v2
+      - run: npm ci
+
+      - run: npx nx workspace-lint
+      # - run: npx nx format:check
+
+      - name: Sets API_HOST
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+          echo "NX_API_HOST=chapp-api" >> $GITHUB_ENV
+          else
+          echo NX_API_HOST=chapp-api-pr-${{ github.event.number }} >> $GITHUB_ENV
+          fi
+
+      - run: NX_API_HOST=$NX_API_HOST npx nx run front-website:build
+
+      - name: Deploy to Netlify
+        uses: sergeylukin/actions-netlify@add-project-name-to-pr-comment
+        if: hashFiles('./dist/apps/front-website') != ''
+        with:
+          project-name: 'Chapp Frontend'
+          publish-dir: './dist/apps/front-website'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploying Chapp Frontend from GH Actions"
+          enable-pull-request-comment: true
+          overwrites-pull-request-comment: true
+          enable-commit-comment: true
+          enable-deployment-status: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: resilient-squirrel-659887.netlify.app
+        timeout-minutes: 1
