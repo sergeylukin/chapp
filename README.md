@@ -1,6 +1,8 @@
 # CHAPP
 
-## Live demos (each is auto synced with `main` branch and is rebuilt/redeployed only if relevant files were modified based on graph of relations between all files extracted via static analysis)
+## Live demos
+
+####  (each piece is auto synced with `main` branch during CI/CD and is rebuilt/redeployed only if relevant files were modified based on graph of relations between all files extracted via static analysis)
 
 API Swagger:
 
@@ -9,6 +11,10 @@ https://chapp-api.sergeylukin.com/api/
 Web App 
 
 https://chapp.sergeylukin.com/
+
+UI library (storybook):
+
+https://chapp-ui.sergeylukin.com/
 
 ## Quick start
 
