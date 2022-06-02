@@ -74,7 +74,7 @@ export function MessageCard({
                 key={key}
                 rel="noreferrer"
               >
-                {decoratedText}
+                {decoratedText.slice(0, 15)}...
               </Link>
             )}
           >
