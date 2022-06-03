@@ -16,9 +16,7 @@ const Room = () => {
   const { prevMessages, messages, bubbles } = useStoreState(
     (store) => store['messagesModel']
   );
-  const { leaveRoomThunk } = useStoreActions(
-    (actions) => actions['userModel']
-  );
+  const { leaveRoomThunk } = useStoreActions((actions) => actions['userModel']);
   const { loadMessagesThunk, toggleBubbles } = useStoreActions(
     (actions) => actions['messagesModel']
   );
@@ -126,7 +124,6 @@ const Room = () => {
         spacing={4}
         mt={14}
         pb={4}
-        px={6}
         w="full"
         sx={{
           position: 'fixed',
@@ -137,7 +134,9 @@ const Room = () => {
           w="100%"
           h="calc(var(--vh, 1vh) * 100 - var(--chakra-space-14) - var(--chakra-space-14) - var(--chakra-space-10))"
           pt={4}
+          spacing={7}
           pb={2}
+          px={6}
           overflowY="scroll"
           overflowX="hidden"
           position="relative"
