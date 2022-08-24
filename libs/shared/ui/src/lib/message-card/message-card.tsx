@@ -58,17 +58,7 @@ export function MessageCard({
               }
             : {},
         }}
-      >
-        <Avatar
-          name="Computer"
-          size={avatarSize}
-          src={avatarImageURL}
-          className={needsVisualRepairment ? 'u-anim-jump' : ''}
-          mt={needsVisualRepairment ? 0 : 2}
-          left={needsVisualRepairment ? -4 : 0}
-          position="absolute"
-        ></Avatar>
-      </Box>
+      ></Box>
       <Flex
         bg="gray.100"
         color="black"
