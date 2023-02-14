@@ -1,7 +1,8 @@
-previewsEnabled: true
+previewsEnabled: false
 previewsExpireAfterDays: 1
 services:
   - type: web
+    pullRequestPreviewsEnabled: false
     name: chapp-api
     env: docker
     domains:
@@ -43,6 +44,7 @@ services:
           property: database
   - type: web
     name: chapp-app
+    pullRequestPreviewsEnabled: false
     env: static
     domains:
       - chapp.sergeylukin.com
@@ -53,8 +55,6 @@ services:
         name: X-Frame-Options
         value: sameorigin
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: NODE_VERSION
         value: 14.5.0
       - key: NODE_ENV
