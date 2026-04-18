@@ -1,4 +1,4 @@
-FROM node:14.5.0-alpine AS development
+FROM node:20-alpine AS development
 
 RUN apk add --no-cache bash netcat-openbsd
 
@@ -16,7 +16,7 @@ RUN npm run build:api
 
 RUN $(npm bin)/tsc prisma/seed.ts; exit 0
 
-FROM node:14.5.0-alpine AS production
+FROM node:20-alpine AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
