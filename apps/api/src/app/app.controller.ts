@@ -16,12 +16,13 @@ import {
 } from '@prisma/client';
 import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/adventurer';
+import { AppService } from './app.service';
 
 import { PrismaService } from './prisma.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly dataService: PrismaService) {}
+  constructor(private readonly dataService: PrismaService, private readonly appService: AppService) {}
 
   @Get('message/:id')
   async getMessageById(@Param('id') id: string): Promise<MessageModel> {
@@ -133,7 +134,8 @@ export class AppController {
     if (body === '/reset') {
       await this.dataService.resetFixedMessages();
     }
-    return this.dataService.message.create({
+
+    const messageModel = await this.dataService.message.create({
       data: {
         body,
         room: {
@@ -144,6 +146,15 @@ export class AppController {
         },
       },
     });
+
+    const languages = ['es_ES', 'it_IT', 'he_IL']
+
+    for (const lang of languages) {
+      const translated = await this.appService.translate(body, lang);
+      console.log(`Translated to ${lang}: ${translated}`);
+    }
+
+    return messageModel;
   }
 
   @Post('room/:id/join')
