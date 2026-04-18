@@ -1,4 +1,4 @@
-FROM node:14.5.0-alpine AS builder
+FROM node:20-alpine AS builder
 
 RUN apk add --no-cache bash
 
@@ -6,7 +6,7 @@ WORKDIR /usr/app
 
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 
