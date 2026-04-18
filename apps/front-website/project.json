@@ -1,7 +1,9 @@
 {
-  "root": "apps/front-website",
+  "name": "front-website",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/front-website/src",
   "projectType": "application",
+  "tags": ["ui"],
   "targets": {
     "build": {
       "executor": "@nrwl/web:webpack",
@@ -57,12 +59,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/front-website"],
+      "outputs": ["{workspaceRoot}/coverage/apps/front-website"],
       "options": {
         "jestConfig": "apps/front-website/jest.config.js",
         "passWithNoTests": true
       }
     }
-  },
-  "tags": ["ui"]
+  }
 }

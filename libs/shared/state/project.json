@@ -1,5 +1,6 @@
 {
-  "root": "libs/shared/state",
+  "name": "@chapp/shared/state",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/state/src",
   "projectType": "library",
   "tags": [],
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/state"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/state"],
       "options": {
         "jestConfig": "libs/shared/state/jest.config.js",
         "passWithNoTests": true

@@ -9,6 +9,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 
+// @ts-ignore
 const configureSwagger = (app) => {
   const options = new DocumentBuilder()
     .setTitle('Chapp API playground')

@@ -1,6 +1,8 @@
 {
-  "root": "libs/front-website/theme",
+  "name": "@chapp/front-website/theme",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/front-website/theme/src",
+  "tags": [],
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -11,12 +13,11 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/front-website/theme"],
+      "outputs": ["{workspaceRoot}/coverage/libs/front-website/theme"],
       "options": {
         "jestConfig": "libs/front-website/theme/jest.config.js",
         "passWithNoTests": true
       }
     }
-  },
-  "tags": []
+  }
 }

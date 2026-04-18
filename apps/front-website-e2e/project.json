@@ -1,7 +1,10 @@
 {
-  "root": "apps/front-website-e2e",
+  "name": "front-website-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/front-website-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["front-website"],
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
@@ -22,7 +25,5 @@
         "lintFilePatterns": ["apps/front-website-e2e/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["front-website"]
+  }
 }

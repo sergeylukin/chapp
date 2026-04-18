@@ -1,5 +1,6 @@
 {
-  "root": "libs/shared/data",
+  "name": "data",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/data/src",
   "projectType": "library",
   "tags": [],
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/data"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/data"],
       "options": {
         "jestConfig": "libs/shared/data/jest.config.js",
         "passWithNoTests": true
