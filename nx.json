@@ -51,5 +51,6 @@
       }
     }
   },
-  "defaultProject": "front-website"
+  "defaultProject": "front-website",
+  "analytics": false
 }
