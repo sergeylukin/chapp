@@ -17,6 +17,23 @@ https://chapp-ui.sergeylukin.com/
 
 _P.S. (each piece is auto synced with `main` branch during CI/CD and is rebuilt/redeployed only if relevant files were modified based on graph of relations between all files extracted via static analysis)_
 
+## Prerequisite (for Windows only) - run:
+
+- `dos2unix scripts/wait-for-it.sh`
+- `dos2unix apps/api/entrypoint.sh`
+
+Explanation:
+
+```
+CRLF line endings
+
+Inside a Linux container, a script with Windows line endings (\r\n) becomes effectively unreadable. The kernel tries to execute:
+
+#!/usr/bin/env bash\r
+
+…and fails → “not found”.
+```
+
 ## Quick start
 
 For quick start, run

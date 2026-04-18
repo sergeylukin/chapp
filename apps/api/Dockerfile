@@ -1,6 +1,6 @@
 FROM node:14.5.0-alpine AS development
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash netcat-openbsd
 
 WORKDIR /usr/app
 
@@ -31,5 +31,7 @@ COPY . .
 
 COPY --from=development /usr/app/dist ./dist
 COPY --from=development /usr/app/prisma ./prisma
+
+RUN echo "before running entrypoint"
 
 CMD ["./apps/api/entrypoint.sh"]
