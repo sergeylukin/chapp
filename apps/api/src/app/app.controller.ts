@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import axios from "axios";
 import { MessageWithUser } from '@chapp/api-interfaces';
 import {
   User as UserModel,
@@ -133,9 +134,16 @@ export class AppController {
     if (body === '/reset') {
       await this.dataService.resetFixedMessages();
     }
+    const targetLocale = "he-IL";
+    const res = await axios.get(
+      `http://genai:3001/translate?targetLocale=${targetLocale}&message=${encodeURIComponent(body)}`
+    );
+
+    const translatedBody = res.data.result;
+
     return this.dataService.message.create({
       data: {
-        body,
+        body: translatedBody,
         room: {
           connect: { id: Number(roomId) },
         },
@@ -234,5 +242,16 @@ export class AppController {
       });
     }
     return user;
+  }
+
+  @Get("test")
+  async test() {
+    const message = "Hello, how are you?";
+    const targetLocale = "he-IL";
+    const res = await axios.get(
+      `http://genai:3001/translate?targetLocale=${targetLocale}&message=${encodeURIComponent(message)}`
+    );
+
+    return res.data.result;
   }
 }
